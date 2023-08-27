@@ -20,17 +20,21 @@ env:
   super_duper_var: totally_awesome
 
 jobs:
-  windows_job:
-    runs-on: windows-latest
+  linux_job_1:
+    runs-on: ubuntu-latest
     steps:
-      - run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
-      - run: echo 'Hi ${{ env.mascot }}'  # Hi Octocat
+      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Mona
+      - run: echo 'Hi ${{ env.mascot }} 2' # Hi Octocat
+      - run: echo 'Hi ${{ env.mascot }} 3' # Hi Mona
+      - run: echo 'Hi ${{ env.mascot }} 4' # Hi Octocat
         env:
           mascot: Octocat
 
-  linux_job:
+  linux_job_2:
     runs-on: ubuntu-latest
     env:
       mascot: Tux
     steps:
-      - run: echo 'Hi ${{ env.mascot }}'  # Hi Tux
+      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Tux
+      - run: echo 'Hi ${{ env.mascot }} 2' # Hi Tux
+      - run: echo 'Hi ${{ env.mascot }} 3' # Hi Tux
