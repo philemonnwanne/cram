@@ -27,8 +27,13 @@ jobs:
     steps:
       - run: echo 'Hi ${{ env.mascot }} 1' # Hi Mona
       - run: echo 'Hi ${{ env.mascot }} 2' # Hi Mona
+        env:
+          mascot: Philoooo
       - run: echo 'Hi ${{ env.mascot }} 3' # Hi Mona
       - run: echo 'Hi ${{ env.mascot }} 4' # Hi Octocat
+        env:
+          mascot: cartier
+      - run: echo 'Hi ${{ env.mascot }} 3' # Hi Mona
 
 
   linux_job_2:
