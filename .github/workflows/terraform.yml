@@ -22,13 +22,14 @@ env:
 jobs:
   linux_job_1:
     runs-on: ubuntu-latest
+    env:
+      mascot: Octocat
     steps:
       - run: echo 'Hi ${{ env.mascot }} 1' # Hi Mona
-      - run: echo 'Hi ${{ env.mascot }} 2' # Hi Octocat
+      - run: echo 'Hi ${{ env.mascot }} 2' # Hi Mona
       - run: echo 'Hi ${{ env.mascot }} 3' # Hi Mona
       - run: echo 'Hi ${{ env.mascot }} 4' # Hi Octocat
-        env:
-          mascot: Octocat
+
 
   linux_job_2:
     runs-on: ubuntu-latest
