@@ -1,8 +1,8 @@
-![Deploy Cram](https://github.com/philemonnwanne/cram/actions/workflows/terraform.yml/badge.svg)
+![Deploy-Cram](https://github.com/philemonnwanne/cram/actions/workflows/terraform.yml/badge.svg)
 
-![Deploy Cram](https://github.com/philemonnwanne/cram/actions/workflows/terraform.yml/badge.svg?event=push)
+![Deploy-Cram-Event](https://github.com/philemonnwanne/cram/actions/workflows/terraform.yml/badge.svg?event=push)
 
-![Deploy Cram](https://github.com/philemonnwanne/cram/actions/workflows/terraform.yml/badge.svg?branch=feature-1)
+![Deploy-Cram-Status](https://github.com/philemonnwanne/cram/actions/workflows/terraform.yml/badge.svg?branch=main)
 
 # Cram
 
