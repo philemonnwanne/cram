@@ -1,13 +1,36 @@
-name: Deploy AZURE app
-run-name: ${{ github.actor }} on ACtions
-on: [push]
+# name: Deploy AZURE app
+# run-name: Action performed by ${{ github.actor }} 👻
+# on: [push]
+# jobs:
+#   check-bats-version:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: "14"
+#       - run: npm install -g bats
+#       - run: bats -v
+
+name: Hi Mascot
+run-name: Action performed by ${{ github.actor }} 👻
+on: push
+env:
+  mascot: Mona
+  super_duper_var: totally_awesome
+
 jobs:
-  check-bats-version:
-    runs-on: ubuntu-latest
+  windows_job:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+      - run: echo 'Hi ${{ env.mascot }}'  # Hi Mona
+      - run: echo 'Hi ${{ env.mascot }}'  # Hi Octocat
+        env:
+          mascot: Octocat
+
+  linux_job:
+    runs-on: ubuntu-latest
+    env:
+      mascot: Tux
+    steps:
+      - run: echo 'Hi ${{ env.mascot }}'  # Hi Tux
