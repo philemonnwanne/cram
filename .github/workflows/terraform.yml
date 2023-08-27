@@ -1,5 +1,5 @@
 name: Deploy AZURE app
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} on ACtions
 on: [push]
 jobs:
   check-bats-version:
