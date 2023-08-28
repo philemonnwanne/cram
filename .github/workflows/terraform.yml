@@ -1,7 +1,7 @@
 name: Deploy AZURE App
 run-name: Written by ${{ github.actor }} 🤖
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   push:
 env:
   mascot: Mona
