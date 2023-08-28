@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   ubuntu_job:
+    name: Deploy on Linux 🐧
     runs-on: ubuntu-latest
     env:
       mascot: Octocat
