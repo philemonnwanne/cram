@@ -15,10 +15,11 @@ jobs:
       - run: echo 'Hi ${{ env.mascot }} 2' # Hi cartier
         env:
           mascot: cartier
-      - name: Install jq tool
+      - name: Check nginx
         run: |
-          sudo systemctl status nginx
-          ls -l
+          sudo systemctl start nginx
+          systemctl status nginx
+          pwd && ls -l
           
 
   # linux_job_2:
