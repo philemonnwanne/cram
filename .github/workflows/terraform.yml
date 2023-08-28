@@ -1,46 +1,31 @@
-# name: Deploy AZURE app
-# run-name: Action performed by ${{ github.actor }} 👻
-# on: [push]
-# jobs:
-#   check-bats-version:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: "14"
-#       - run: npm install -g bats
-#       - run: bats -v
-
-name: Hi Mascot
+name: Deploy AZURE app
 run-name: Action performed by ${{ github.actor }} 👻
+# on: [push]
 on: push
 env:
   mascot: Mona
-  super_duper_var: totally_awesome
 
 jobs:
-  linux_job_1:
+  linux_job:
     runs-on: ubuntu-latest
     env:
       mascot: Octocat
     steps:
-      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Mona
-      - run: echo 'Hi ${{ env.mascot }} 2' # Hi Mona
-        env:
-          mascot: Philoooo
-      - run: echo 'Hi ${{ env.mascot }} 3' # Hi Mona
-      - run: echo 'Hi ${{ env.mascot }} 4' # Hi Octocat
+      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
+      - run: echo 'Hi ${{ env.mascot }} 2' # Hi cartier
         env:
           mascot: cartier
-      - run: echo 'Hi ${{ env.mascot }} 3' # Hi Mona
+      - name: Install jq tool
+        run: |
+          sudo systemctl status nginx
+          ls -l
+          
 
-
-  linux_job_2:
-    runs-on: ubuntu-latest
-    env:
-      mascot: Tux
-    steps:
-      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Tux
-      - run: echo 'Hi ${{ env.mascot }} 2' # Hi Tux
-      - run: echo 'Hi ${{ env.mascot }} 3' # Hi Tux
+  # linux_job_2:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     mascot: Tux
+  #   steps:
+  #     - run: echo 'Hi ${{ env.mascot }} 1' # Hi Tux
+  #     - run: echo 'Hi ${{ env.mascot }} 2' # Hi Tux
+  #     - run: echo 'Hi ${{ env.mascot }} 3' # Hi Tux
