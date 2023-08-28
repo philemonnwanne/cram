@@ -3,7 +3,7 @@ resource "aws_instance" "azure" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t3.nano"
   associate_public_ip_address = true
-  key_name                    = aws_key_pair.ssh_access_key.key_name
+  # key_name                    = aws_key_pair.ssh_access_key.key_name
   subnet_id                   = aws_subnet.main.id
   security_groups = [aws_security_group.instance_sg.id]
   # user_data_replace_on_change = true
@@ -76,10 +76,10 @@ data "aws_ami" "ubuntu" {
 }
 
 # create an SSH access key
-resource "aws_key_pair" "ssh_access_key" {
-  key_name   = "~/.ssh/twingate_id_rsa"
-  public_key = file("~/.ssh/twingate_id_rsa.pub")
-}
+# resource "aws_key_pair" "ssh_access_key" {
+#   key_name   = "~/.ssh/twingate_id_rsa"
+#   public_key = file("~/.ssh/twingate_id_rsa.pub")
+# }
 
 # tripevibe connector security group
 resource "aws_security_group" "instance_sg" {
