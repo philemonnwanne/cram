@@ -5,7 +5,7 @@ on:
   push:
 env:
   mascot: Mona
-  AWS_REGION:  us-east-1
+  AWS_REGION:  ${{ secrets.AWS_DEFAULT_REGION }}
   ACTIONS_ROLE_ARN: arn:aws:iam::183066416469:role/RoleForGitHubActions
 
 permissions:
