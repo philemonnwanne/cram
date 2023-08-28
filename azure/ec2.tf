@@ -4,7 +4,7 @@ resource "aws_instance" "azure" {
   instance_type               = "t3.nano"
   associate_public_ip_address = true
   # key_name                    = aws_key_pair.ssh_access_key.key_name
-  subnet_id                   = aws_subnet.main.id
+  subnet_id       = aws_subnet.main.id
   security_groups = [aws_security_group.instance_sg.id]
   # user_data_replace_on_change = true
   # user_data                   = file("${path.module}/userdata.sh")
@@ -23,8 +23,8 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
@@ -112,10 +112,10 @@ resource "aws_security_group" "instance_sg" {
 }
 
 locals {
-  https_port      = 443
-  port_zero       = 0
-  http_port       = 80
-  cidr_blocks     = ["0.0.0.0/0"]
+  https_port  = 443
+  port_zero   = 0
+  http_port   = 80
+  cidr_blocks = ["0.0.0.0/0"]
 
   tags = {
     Track       = "Cloud/DevOps"
