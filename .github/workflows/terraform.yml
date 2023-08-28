@@ -24,8 +24,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: $ACTIONS_ROLE_ARN
-          aws-region: $AWS_REGION
+          role-to-assume: ${{ env.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
           # mask-aws-account-id: true
           # unset-current-credentials: true
 
