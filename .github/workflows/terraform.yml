@@ -1,7 +1,7 @@
 name: Deploy AZURE App
 run-name: Written by ${{ github.actor }} 🤖
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   push:
 env:
   mascot: Mona
@@ -52,9 +52,9 @@ jobs:
         continue-on-error: true
 
       - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
-      - run: echo ${{ steps.plan.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
+      # - run: echo ${{ steps.plan.outputs.stdout }}
+      # - run: echo ${{ steps.plan.outputs.stderr }}
+      # - run: echo ${{ steps.plan.outputs.exitcode }}
 
       # - name: Check nginx
       #   run: |
