@@ -1,5 +1,5 @@
 name: Deploy AZURE App
-run-name: Action performed by ${{ github.actor }} 👻
+run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
   push:
@@ -26,13 +26,12 @@ jobs:
         with:
           role-to-assume: ${{ env.ACTIONS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-          mask-aws-account-id: true
-          unset-current-credentials: true
 
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: true
+          directory: "./azure"
 
       - name: Terraform fmt 🔥
         id: fmt
@@ -43,10 +42,10 @@ jobs:
         id: init-validate
         run: terraform init && terraform validate -no-color
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: terraform plan -no-color
-      #   continue-on-error: true
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
 
       # - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
       # - run: echo ${{ steps.plan.outputs.stdout }}
