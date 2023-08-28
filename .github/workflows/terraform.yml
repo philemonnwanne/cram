@@ -5,7 +5,7 @@ on:
   push:
 env:
   mascot: Mona
-  aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+  awsregion: ${{ vars.AWS_DEFAULT_REGION }}
   actions-role: ${{ vars.ACTIONS_ROLE_ARN }}
 
 permissions:
@@ -25,7 +25,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: $actions-role
-          aws-region: $aws-region
+          aws-region: $awsregion
           mask-aws-account-id: true
           unset-current-credentials: true
 
