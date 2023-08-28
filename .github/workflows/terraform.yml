@@ -5,8 +5,8 @@ on:
   push:
 env:
   mascot: Mona
-  # awsregion: ${{ vars.AWS_DEFAULT_REGION }}
-  actions-role: ${{ vars.ACTIONS_ROLE_ARN }}
+  # aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+  # actions-role: ${{ vars.ACTIONS_ROLE_ARN }}
 
 permissions:
   id-token: write # required for requesting the JWT
@@ -24,12 +24,12 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: $actions-role
-          audience: sts.amazonaws.com
+          role-to-assume: arn:aws:iam::183066416469:role/RoleForGitHubActions
+          # audience: sts.amazonaws.com
           # role-external-id: 
           aws-region: us-east-1
-          mask-aws-account-id: true
-          unset-current-credentials: true
+          # mask-aws-account-id: true
+          # unset-current-credentials: true
 
 
       - name: Setup Terraform
