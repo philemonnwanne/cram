@@ -4,6 +4,7 @@ run-name: Action performed by ${{ github.actor }} 👻
 on: push
 env:
   mascot: Mona
+  env_var: ${{ vars.AWS_DEFAULT_REGION }}'
 
 jobs:
   linux_job:
@@ -19,7 +20,10 @@ jobs:
         run: |
           sudo systemctl start nginx
           systemctl status nginx
+          echo " "
           pwd && ls -l
+          echo " "
+          echo "The AWS region is: $env_var"
           
 
   # linux_job_2:
