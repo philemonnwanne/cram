@@ -5,8 +5,8 @@ on:
   push:
 env:
   mascot: Mona
-  AWS_REGION: "arn:aws:iam::183066416469:role/RoleForGitHubActions"
-  ACTIONS_ROLE_ARN: "us-east-1"
+  AWS_REGION:  us-east-1
+  ACTIONS_ROLE_ARN: arn:aws:iam::183066416469:role/RoleForGitHubActions
 
 permissions:
   id-token: write # required for requesting the JWT
