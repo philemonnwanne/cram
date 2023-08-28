@@ -18,7 +18,7 @@ jobs:
     env:
       mascot: Octocat
     steps:
-      - name: Checkout
+      - name: Checkout 🛒
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials
@@ -29,17 +29,17 @@ jobs:
           # mask-aws-account-id: true
           # unset-current-credentials: true
 
-      - name: Setup Terraform
+      - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: true
 
-      - name: Terraform fmt
+      - name: Terraform fmt 🔥
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
 
-      - name: Terraform Init & Validate
+      - name: Terraform Init & Validate 🍀🍁
         id: init-validate
         run: terraform init && terraform validate -no-color
 
