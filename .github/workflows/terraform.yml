@@ -1,33 +1,88 @@
-name: Deploy AZURE app
+name: Deploy AZURE App
 run-name: Action performed by ${{ github.actor }} 👻
-# on: [push]
-on: push
+on:
+  workflow_dispatch:
+  push:
 env:
   mascot: Mona
-  env_var: ${{ vars.AWS_DEFAULT_REGION }}
+  aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+  actions-role: ${{ vars.ACTIONS_ROLE_ARN }}
+
+permissions:
+  id-token: write # required for requesting the JWT
+  contents: read # required for actions/checkout
 
 jobs:
-  linux_job:
+  ubuntu_job:
     runs-on: ubuntu-latest
     env:
       mascot: Octocat
     steps:
-      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
-      - run: echo 'Hi ${{ env.mascot }} 2' # Hi cartier
-        env:
-          mascot: cartier
-      - name: Check nginx
-        run: |
-          sudo systemctl start nginx
-          systemctl status nginx
-          echo " "
-          pwd && ls -l
-          echo " "
-          echo "The AWS region is: $env_var"
-          
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  # linux_job_2:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: $actions-role
+          aws-region: $aws-region
+          mask-aws-account-id: true
+          unset-current-credentials: true
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: true
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init & Validate
+        id: init-validate
+        run: terraform init && terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
+
+      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
+      - run: echo ${{ steps.plan.outputs.stdout }}
+      - run: echo ${{ steps.plan.outputs.stderr }}
+      - run: echo ${{ steps.plan.outputs.exitcode }}
+
+      # - name: Check nginx
+      #   run: |
+      #     systemctl status nginx
+      #     echo " $awsRegion "
+      #     pwd && ls -l
+
+  # clean-up:
   #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v3
+  #       with:
+  #         role-to-assume: $actions-role
+  #         aws-region: $aws-region
+
+  #     - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v2
+  #     with:
+  #       terraform_wrapper: true
+
+  #     - name: Terraform fmt
+  #       id: fmt
+  #       run: terraform fmt -check
+  #       continue-on-error: true
+
+  # windows_job:
+  #   runs-on: windows-latest
   #   env:
   #     mascot: Tux
   #   steps:
