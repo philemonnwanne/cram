@@ -4,7 +4,7 @@ run-name: Action performed by ${{ github.actor }} 👻
 on: push
 env:
   mascot: Mona
-  env_var: ${{ vars.AWS_DEFAULT_REGION }}'
+  env_var: ${{ vars.AWS_DEFAULT_REGION }}
 
 jobs:
   linux_job:
