@@ -1,4 +1,4 @@
-name: Deploy AZURE App
+name: Destroy AZURE App 💣
 run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
