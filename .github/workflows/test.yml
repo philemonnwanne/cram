@@ -1,0 +1,86 @@
+name: Test AZURE App 👩🏾‍⚕️
+run-name: Written by ${{ github.actor }} 🤖
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+            - info
+            - warning
+            - debug
+      print_tags:
+        description: 'True to print to STDOUT'
+        required: true
+        type: boolean
+      tags:
+        description: 'Test scenario tags'
+        required: true
+        type: string
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
+
+jobs:
+  print-tag:
+    runs-on: ubuntu-latest
+    if:  ${{ inputs.print_tags }} 
+    steps:
+      - name: Print the input tag to STDOUT
+        run: echo  The tags are ${{ inputs.tags }} 
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - main
+# env:
+#   TF_IN_AUTOMATION: true
+# #   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+# #   ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
+
+# defaults:
+#   run:
+#     working-directory: "./azure"
+
+# permissions:
+#   id-token: write # required for requesting the JWT
+#   contents: read # required for actions/checkout
+
+# jobs:
+#   create-strategy:
+#     name: 🐢 Terraform Infrastructure MOC 🐧
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest, macos-latest]
+#         environment: [test, staging, production]
+#     runs-on: ${{ matrix.os }}
+
+#     steps:
+#       - name: Checkout 🛒
+#         uses: actions/checkout@v3
+
+#       - name: Configure AWS Credentials 🦢
+#         uses: aws-actions/configure-aws-credentials@v3
+#         with:
+#           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+#           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+
+#       - name: Setup Terraform 🚦
+#         uses: hashicorp/setup-terraform@v2
+#         with:
+#           terraform_wrapper: true
+
+#       - name: Export Terraform Runner Variables ✅
+#         run: |
+#           export ${{ env.TF_IN_AUTOMATION }} \
+#             && TF_LOG=trace \
+#             && TF_INPUT=0
+
+#       - name: Terraform Format 🔥
+#         id: fmt
+#         run: terraform fmt -check
+#         continue-on-error: true
