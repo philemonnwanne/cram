@@ -21,8 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
-      TF_LOG: trace
-      TF_INPUT: 0
+
     steps:
       - name: Checkout 🛒
         uses: actions/checkout@v3
@@ -41,7 +40,10 @@ jobs:
       - name: Export Runner Variables ✅
         run: |
           export ${{ env.TF_IN_AUTOMATION }}
-          echo $TF_IN_AUTOMATION
+          export TF_LOG=trace \
+            && TF_INPUT=0
+          echo "The input is: $TF_INPUT"
+          echo "The log_trace is: $TF_LOG"
 
       - name: Terraform Format 🔥
         id: fmt
