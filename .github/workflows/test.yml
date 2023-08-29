@@ -21,8 +21,8 @@ on:
         required: true
         type: string
       environment:
-        description: 'Environment to run tests against'
-        type: environment
+        description: 'Number to run tests against'
+        type: number
         required: true
 
 jobs:
