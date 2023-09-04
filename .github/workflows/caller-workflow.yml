@@ -23,7 +23,7 @@ jobs:
   create_job:
     name: ⛅️ Create AZURE App 🕋
     needs: infracost_job
-    # if: ${{ success() }}
+    # if: ${{ failure() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-create.yml@main
 
   destroy_job:
