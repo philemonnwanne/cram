@@ -3,6 +3,9 @@ run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      ACTIONS_ROLE_ARN:
+        required: true
   # push:
 env:
   TF_IN_AUTOMATION: true
