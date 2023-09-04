@@ -24,7 +24,6 @@ jobs:
     # environment: ${{ matrix.environment }}
     env:
       TF_IN_AUTOMATION: true
-      TF_LOG: trace
       TF_INPUT: 0
       TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
@@ -59,13 +58,13 @@ jobs:
         run: terraform plan -no-color
         continue-on-error: true
 
-      # - name: Terraform Apply
-      #   if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   run: terraform apply -auto-approve
+      - name: Terraform Apply
+        if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve
 
-      - name: 🛣️ Check Current Path
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          echo " $PWD "
-          pwd && ls -l
-          echo " $GITHUB_WORKSPACE "
+      # - name: 🛣️ Check Current Path
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: |
+      #     echo " $PWD "
+      #     pwd && ls -l
+      #     echo " $GITHUB_WORKSPACE "
