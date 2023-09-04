@@ -9,8 +9,8 @@ env:
   TF_LOG: trace
   TF_INPUT: 0
   mascot: Mona
-  # AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
-  # ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
+  AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+  ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
 
 defaults:
   run:
