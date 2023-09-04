@@ -9,9 +9,9 @@ on:
   # push:
 env:
   TF_IN_AUTOMATION: true
-  TF_LOG: trace
+  # TF_LOG: trace
   TF_INPUT: 0
-  mascot: Mona
+  # mascot: Mona
   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
   ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
 
@@ -53,7 +53,7 @@ jobs:
         run: |
           export ${{ env.TF_IN_AUTOMATION }} \
             && TF_LOG=trace \
-            && TF_INPUT=0
+            && ${{ env.TF_INPUT }}
 
       - name: Terraform Format ✅
         id: fmt
@@ -70,7 +70,7 @@ jobs:
         run: terraform plan -no-color
         continue-on-error: true
 
-      - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
+      # - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
       - run: echo ${{ steps.plan.outputs.exitcode }}
 
       - name: Terraform Plan Status
