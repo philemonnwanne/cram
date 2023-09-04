@@ -7,8 +7,6 @@ on:
     #   ACTIONS_ROLE_ARN:
     #     required: true
   # push:
-env:
-  # mascot: Mona
 
 defaults:
   run:
