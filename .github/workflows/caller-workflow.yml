@@ -25,9 +25,13 @@ jobs:
     needs: infracost_job
     if: ${{ failure() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-create.yml@main
+    with:
+      secrets: inherit
 
   destroy_job:
     name: 💣 Destroy AZURE App 💥
     needs: create_job
     if: ${{ success() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-destroy.yml@main
+    with:
+      secrets: inherit
