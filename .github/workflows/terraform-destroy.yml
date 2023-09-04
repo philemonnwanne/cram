@@ -9,10 +9,6 @@ on:
         options:
         - destroy_No
         - destroy_Yes
-      # choice:
-      #   description: 'Destroy Infra?'
-      #   required: true
-      #   type: boolean
   # workflow_call:
   push:
 
@@ -20,9 +16,9 @@ defaults:
   run:
     working-directory: "./azure"
 
-# permissions:
-#   id-token: write # required for requesting the JWT
-#   contents: read # required for actions/checkout
+permissions:
+  id-token: write # required for requesting the JWT
+  contents: read # required for actions/checkout
 
 jobs:
   terraform_job:
