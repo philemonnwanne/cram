@@ -12,20 +12,19 @@ permissions:
   pull-requests: write
 
 jobs:
-  infracost_job:
-    name: 🤔 Pre-Determine Infrastructure Cost 💰
-    uses: philemonnwanne/cram/.github/workflows/infracost.yml@main
+  # infracost_job:
+  #   name: 🤔 Pre-Determine Infrastructure Cost 💰
+  #   uses: philemonnwanne/cram/.github/workflows/infracost.yml@main
 
   create_job:
     name: ⛅️ Create AZURE App 🕋
-    needs: infracost_job
-    if: ${{ failure() }}
+    # needs: infracost_job
+    # if: ${{ failure() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-create.yml@main
     secrets: inherit
 
-  # destroy_job:
-  #   name: 💣 Destroy AZURE App 💥
-  #   needs: create_job
-  #   if: ${{ success() }}
-  #   uses: philemonnwanne/cram/.github/workflows/terraform-destroy.yml@main
-  #   secrets: inherit
+  destroy_job:
+    name: 💣 Destroy AZURE App 💥
+    needs: create_job
+    uses: philemonnwanne/cram/.github/workflows/terraform-destroy.yml@main
+    secrets: inherit

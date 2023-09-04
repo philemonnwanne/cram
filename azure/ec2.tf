@@ -1,7 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "tripy-one"
-    key    = "azure/terraform.tfstate"
+    key    = "terraform.tfstate"
     region = "us-east-1"
   }
 }

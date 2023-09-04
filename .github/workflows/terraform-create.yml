@@ -2,10 +2,12 @@ name: ⛅️ Create AZURE App 🕋
 run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
+    inputs:
+      choice:
+        description: 'Destroy Infra?'
+        required: true
+        type: boolean
   workflow_call:
-    # secrets:
-    #   ACTIONS_ROLE_ARN:
-    #     required: true
   # push:
 
 defaults:
@@ -26,7 +28,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     # environment: ${{ matrix.environment }}
     env:
-      mascot: Octocat
+      TF_IN_AUTOMATION: true
+      TF_LOG: trace
+      TF_INPUT: 0
+      TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
       - name: Checkout 🛒
         uses: actions/checkout@v3
@@ -42,40 +47,30 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - name: Export Terraform Runner Variables 🏃🏾
-        run: |
-          export TF_IN_AUTOMATION=true \
-            && TF_LOG=trace \
-            && TF_INPUT=0
-
-      - name: Terraform Format ✅
+      - name: Terraform Format ℹ
         id: fmt
         run: terraform fmt -check
-        continue-on-error: true
 
-      - name: 🍀 Terraform Init & Validate 🍁
-        id: init-validate
-        run: terraform init && terraform validate -no-color
-        # run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+      - name: 🍀 Terraform Init 🍁
+        id: init
+        run: terraform init -backend-config="bucket=$TF_STATE"
+
+      - name: Terraform Validate  ✅
+        id: validate
+        run: terraform validate
 
       - name: Terraform Plan 👨🏾‍💻
         id: plan
         run: terraform plan -no-color
         continue-on-error: true
 
-      # - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
-      - run: echo ${{ steps.plan.outputs.exitcode }}
+      # - name: Terraform Apply
+      #   if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: terraform apply -auto-approve
 
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve
-
-      # - name: Check nginx
-      #   run: |
-      #     systemctl status nginx
-      #     echo " $awsRegion "
-      #     pwd && ls -l
+      - name: 🛣️ Check Current Path
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          echo " $PWD "
+          pwd && ls -l
+          echo " $GITHUB_WORKSPACE "

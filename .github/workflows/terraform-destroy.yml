@@ -2,6 +2,17 @@ name: 💣 Destroy AZURE App 💥
 run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform Action to Perform'
+        type: choice
+        options:
+        - terraform_apply
+        - terraform_destroy
+      choice:
+        description: 'Destroy Infra?'
+        required: true
+        type: boolean
   # workflow_call:
   # push:
 
@@ -9,9 +20,9 @@ defaults:
   run:
     working-directory: "./azure"
 
-permissions:
-  id-token: write # required for requesting the JWT
-  contents: read # required for actions/checkout
+# permissions:
+#   id-token: write # required for requesting the JWT
+#   contents: read # required for actions/checkout
 
 jobs:
   terraform_job:
@@ -26,7 +37,7 @@ jobs:
       TF_IN_AUTOMATION: true
       TF_LOG: trace
       TF_INPUT: 0
-
+      TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
       - name: Checkout 🛒
         uses: actions/checkout@v3
@@ -43,13 +54,13 @@ jobs:
           terraform_wrapper: true
 
       - name: 🍀 Terraform Init 🍁
-        id: init-validate
-        run: terraform init
-        # run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+        id: init
+        run: terraform init -backend-config="bucket=$TF_STATE"
 
       - name: Terraform Destroy
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform destroy -auto-approve
+        if: ${{ inputs.action == 'terraform_destroy' }}
+        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        # run: terraform destroy -auto-approve
+        run: terraform plan
 
 
