@@ -1,5 +1,5 @@
 name: 💣 Destroy AZURE App 💥
-run-name: Written by ${{ github.actor }} 🤖
+run-name: destroyed by ${{ github.actor }} 🧨
 on:
   workflow_dispatch:
     inputs:

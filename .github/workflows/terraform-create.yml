@@ -1,5 +1,5 @@
 name: ⛅️ Create AZURE App 🕋
-run-name: Written by ${{ github.actor }} 🤖
+run-name: created by ${{ github.actor }} 🪼
 on:
   # workflow_dispatch:
   workflow_call:
