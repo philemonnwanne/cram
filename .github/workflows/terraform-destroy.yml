@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: 'Terraform Action to Perform'
+        description: 'Destroy Infra?'
         type: choice
         options:
-        - terraform_apply
-        - terraform_destroy
-      choice:
-        description: 'Destroy Infra?'
-        required: true
-        type: boolean
-  workflow_call:
-  # push:
+        - destroy_No
+        - destroy_Yes
+      # choice:
+      #   description: 'Destroy Infra?'
+      #   required: true
+      #   type: boolean
+  # workflow_call:
+  push:
 
 defaults:
   run:
@@ -58,7 +58,7 @@ jobs:
         run: terraform init -backend-config="bucket=$TF_STATE"
 
       - name: Terraform Destroy
-        if: ${{ inputs.action == 'terraform_destroy' }}
+        if: ${{ inputs.action == 'destroy_Yes' }}
         # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         # run: terraform destroy -auto-approve
         run: terraform plan

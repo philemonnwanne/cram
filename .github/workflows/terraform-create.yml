@@ -1,12 +1,7 @@
 name: ⛅️ Create AZURE App 🕋
 run-name: Written by ${{ github.actor }} 🤖
 on:
-  workflow_dispatch:
-    inputs:
-      choice:
-        description: 'Destroy Infra?'
-        required: true
-        type: boolean
+  # workflow_dispatch:
   workflow_call:
   # push:
 
