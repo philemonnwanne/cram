@@ -46,7 +46,7 @@ jobs:
         run: |
           export TF_IN_AUTOMATION=true \
             && TF_LOG=trace \
-            && TF_INPUT=0 }}
+            && TF_INPUT=0
 
       - name: Terraform Format ✅
         id: fmt
