@@ -16,9 +16,9 @@ defaults:
   run:
     working-directory: "./azure"
 
-permissions:
-  id-token: write # required for requesting the JWT
-  contents: read # required for actions/checkout
+# permissions:
+#   id-token: write # required for requesting the JWT
+#   contents: read # required for actions/checkout
 
 jobs:
   terraform_job:
@@ -46,7 +46,7 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - name: Export Terraform Runner Variables ✅
+      - name: Export Terraform Runner Variables 🏃🏾
         run: |
           export ${{ env.TF_IN_AUTOMATION }} \
             && TF_LOG=trace \
