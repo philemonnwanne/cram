@@ -6,14 +6,14 @@ on:
     branches:
       - 'main'
 
-defaults:
-  run:
-    working-directory: "./azure"
+# defaults:
+#   run:
+#     working-directory: "./azure"
 
-permissions:
-  id-token: write # required for requesting the JWT
-  contents: read # required for actions/checkout
-  pull-requests: write
+# permissions:
+#   id-token: write # required for requesting the JWT
+#   contents: read # required for actions/checkout
+#   pull-requests: write
 
 jobs:
   infracost_job:

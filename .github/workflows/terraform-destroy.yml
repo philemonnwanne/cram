@@ -8,13 +8,13 @@ on:
 #   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
 #   ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
 
-# defaults:
-#   run:
-#     working-directory: "./azure"
+defaults:
+  run:
+    working-directory: "./azure"
 
-# permissions:
-#   id-token: write # required for requesting the JWT
-#   contents: read # required for actions/checkout
+permissions:
+  id-token: write # required for requesting the JWT
+  contents: read # required for actions/checkout
 
 jobs:
   terraform_job:
