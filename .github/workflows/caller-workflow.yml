@@ -29,5 +29,5 @@ jobs:
   destroy_job:
     name: 💣 Destroy AZURE App 💥
     needs: create_job
-    # if: ${{ success() }}
+    if: ${{ success() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-destroy.yml@main

@@ -38,20 +38,26 @@ jobs:
       - name: Configure AWS Credentials 🦢
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ env.ACTIONS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: true
 
-      - name: Terraform Format 🔥
+      - name: Export Terraform Runner Variables ✅
+        run: |
+          export ${{ env.TF_IN_AUTOMATION }} \
+            && TF_LOG=trace \
+            && TF_INPUT=0
+
+      - name: Terraform Format ✅
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
 
-      - name: Terraform Init & Validate 🍀🍁
+      - name: 🍀 Terraform Init & Validate 🍁
         id: init-validate
         run: terraform init && terraform validate -no-color
         # run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
@@ -62,16 +68,14 @@ jobs:
         continue-on-error: true
 
       - run: echo 'Hi ${{ env.mascot }} 1' # Hi Octocat
-      # - run: echo ${{ steps.plan.outputs.stdout }}
-      # - run: echo ${{ steps.plan.outputs.stderr }}
-      # - run: echo ${{ steps.plan.outputs.exitcode }}
+      - run: echo ${{ steps.plan.outputs.exitcode }}
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
- 
+
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
 
       # - name: Check nginx

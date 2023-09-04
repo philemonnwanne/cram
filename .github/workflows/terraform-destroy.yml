@@ -49,12 +49,12 @@ jobs:
             && TF_LOG=trace \
             && TF_INPUT=0
 
-      - name: Terraform Format 🔥
+      - name: Terraform Format ✅
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
 
-      - name: Terraform Init & Validate 🍀 🍁
+      - name: 🍀 Terraform Init & Validate 🍁
         id: init-validate
         run: terraform init && terraform validate -no-color
         # run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
@@ -66,7 +66,7 @@ jobs:
 
       # - run: echo ${{ steps.plan.outputs.stdout }}
       # - run: echo ${{ steps.plan.outputs.stderr }}
-      # - run: echo ${{ steps.plan.outputs.exitcode }}
+      - run: echo ${{ steps.plan.outputs.exitcode }}
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
