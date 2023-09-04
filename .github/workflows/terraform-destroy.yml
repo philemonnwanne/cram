@@ -2,14 +2,8 @@ name: 💣 Destroy AZURE App 💥
 run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
-  workflow_call:
-    secrets:
-      ACTIONS_ROLE_ARN:
-        required: true
+  # workflow_call:
   # push:
-# env:
-#   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
-#   ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
 
 defaults:
   run:
@@ -24,7 +18,7 @@ jobs:
     name: 🐢 Terraform Infrastructure MOC 🐧
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         # environment: [dev, stage, prod]
     runs-on: ${{ matrix.os }}
     # environment: ${{ matrix.environment }}
@@ -46,38 +40,14 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - name: Export Terraform Runner Variables 🏃🏾
-        run: |
-          export TF_IN_AUTOMATION=true \
-            && TF_LOG=trace \
-            && TF_INPUT=0
-
-      - name: Terraform Format ✅
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: 🍀 Terraform Init & Validate 🍁
+      - name: 🍀 Terraform Init 🍁
         id: init-validate
-        run: terraform init && terraform validate -no-color
+        run: terraform init
         # run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
-
-      - name: Terraform Plan 👨🏾‍💻
-        id: plan
-        run: terraform plan -no-color
-        continue-on-error: true
-
-      # - run: echo ${{ steps.plan.outputs.stdout }}
-      # - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
 
       - name: Terraform Destroy
         if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
       # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform destroy -auto-approve
 
 

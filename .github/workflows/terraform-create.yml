@@ -21,7 +21,7 @@ jobs:
     name: 🐢 Terraform Infrastructure MOC 🐧
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         # environment: [dev, stage, prod]
     runs-on: ${{ matrix.os }}
     # environment: ${{ matrix.environment }}
@@ -72,7 +72,7 @@ jobs:
 
       - name: Terraform Apply
         if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve
 
       # - name: Check nginx
       #   run: |

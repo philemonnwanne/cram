@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "tripy-one"
+    key    = "azure/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
 # create ec2 instance
 resource "aws_instance" "azure" {
   ami                         = data.aws_ami.ubuntu.id
