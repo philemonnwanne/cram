@@ -53,6 +53,5 @@ jobs:
         run: terraform init -backend-config="bucket=$TF_STATE"
 
       - name: Terraform Destroy
-        if: ${{ inputs.action == 'destroy_Yes' }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: ${{ github.event.inputs.action == 'destroy_Yes' }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform destroy -auto-approve
-        # run: terraform plan
