@@ -7,13 +7,13 @@ on:
 #   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
 #   ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
 
-defaults:
-  run:
-    working-directory: "./azure"
+# defaults:
+#   run:
+#     working-directory: "./azure"
 
-permissions:
-  id-token: write # required for requesting the JWT
-  contents: read # required for actions/checkout
+# permissions:
+#   id-token: write # required for requesting the JWT
+#   contents: read # required for actions/checkout
 
 jobs:
   terraform_job:
@@ -37,13 +37,11 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - name: Export Runner Variables ✅
+      - name: Export Terraform Runner Variables ✅
         run: |
-          export ${{ env.TF_IN_AUTOMATION }}
-          export TF_LOG=trace \
+          export ${{ env.TF_IN_AUTOMATION }} \
+            && TF_LOG=trace \
             && TF_INPUT=0
-          echo "The input is: $TF_INPUT"
-          echo "The log_trace is: $TF_LOG"
 
       - name: Terraform Format 🔥
         id: fmt
@@ -68,12 +66,9 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      # - name: Terraform Destroy
+      - name: Terraform Destroy
+        if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
       # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -input=false
 
-  # windows_job:
-  #   runs-on: windows-latest
-  #   env:
-  #     mascot: Tux
-  #   steps:
+

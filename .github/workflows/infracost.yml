@@ -1,0 +1,26 @@
+name: Pre-Determine Infrastructure Cost 💰
+run-name: Written by ${{ github.actor }} 🤖
+on:
+  workflow_dispatch:
+  # push:
+env:
+  TF_IN_AUTOMATION: true
+#   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+#   ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
+
+defaults:
+  run:
+    working-directory: "./azure"
+
+permissions:
+  id-token: write # required for requesting the JWT
+  contents: read # required for actions/checkout
+
+jobs:
+  create-strategy:
+    name: 🐢 Terraform Infrastructure MOC 🐧
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        environment: [test, staging, production]
+    runs-on: ${{ matrix.os }}
