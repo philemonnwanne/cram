@@ -23,7 +23,12 @@ env:
 jobs:
   terraform_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        # environment: [dev, stage, prod]
+    runs-on: ${{ matrix.os }}
+    # environment: ${{ matrix.environment }}
     env:
       mascot: Octocat
     steps:

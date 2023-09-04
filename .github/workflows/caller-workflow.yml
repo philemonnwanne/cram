@@ -18,39 +18,16 @@ permissions:
 jobs:
   infracost_job:
     name: 🤔 Pre-Determine Infrastructure Cost 💰
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        # environment: [dev, stage, prod]
     uses: philemonnwanne/cram/.github/workflows/infracost.yml@main
-    with:
-        os: ${{ matrix.os }}
- 
-        # target: ${{ matrix.environment }}
 
   create_job:
-    name: Create AZURE App 🕋
+    name: ⛅️ Create AZURE App 🕋
     needs: infracost_job
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        environment: [dev, stage, prod]
+    # if: ${{ success() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-create.yml@main
-    with:
-        os: ${{ matrix.os }}
-
-        target: ${{ matrix.environment }}
-        if: jobs.infracost_job.result == 'success'
 
   destroy_job:
-    name: Destroy AZURE App 💣💥
+    name: 💣 Destroy AZURE App 💥
     needs: create_job
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        environment: [dev, stage, prod]
+    # if: ${{ success() }}
     uses: philemonnwanne/cram/.github/workflows/terraform-destroy.yml@main
-    with:
-        os: ${{ matrix.os }}
-
-        target: ${{ matrix.environment }}

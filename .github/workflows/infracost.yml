@@ -10,8 +10,13 @@ env:
 jobs:
   infracost_slack:
     name: 📣 Infracost Alert 💰
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        # environment: [dev, stage, prod]
+    runs-on: ${{ matrix.os }}
+    # environment: ${{ matrix.environment }}
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest
     permissions:
       contents: read
       # Required to post comments
@@ -40,8 +45,8 @@ jobs:
       # Checkout the base branch of the pull request (e.g. main/master).
       - name: Checkout base branch
         uses: actions/checkout@v3
-        with:
-          ref: "${{ github.event.pull_request.base.ref }}"
+        # with:
+        #   ref: "${{ github.event.pull_request.base.ref }}"
 
       # Generate Infracost JSON file as the baseline.
       - name: Generate Infracost cost estimate baseline
@@ -74,7 +79,7 @@ jobs:
           infracost comment github --path=/tmp/infracost.json \
           --repo=$GITHUB_REPOSITORY \
           --github-token=${{github.token}} \
-          --pull-request=${{github.event.pull_request.number}} \
+          --pull-request=${{github.event.push.number}} \
           --behavior=update
 
       #- name: Generate Slack message
