@@ -1,5 +1,5 @@
-name: Call Terraform MOC 💣
-run-name: Made by ${{ github.actor }} 🤖
+name: 👨🏾‍💻 Call Terraform MOC
+run-name: made by ${{ github.actor }} 🧌
 on:
   workflow_dispatch:
   push:
