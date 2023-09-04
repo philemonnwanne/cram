@@ -48,7 +48,7 @@ jobs:
 
       - name: Export Terraform Runner Variables 🏃🏾
         run: |
-          export ${{ env.TF_IN_AUTOMATION }} \
+          export TF_IN_AUTOMATION=true \
             && TF_LOG=trace \
             && TF_INPUT=0
 

@@ -3,17 +3,12 @@ run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
   workflow_call:
-    secrets:
-      ACTIONS_ROLE_ARN:
-        required: true
+    # secrets:
+    #   ACTIONS_ROLE_ARN:
+    #     required: true
   # push:
 env:
-  TF_IN_AUTOMATION: true
-  # TF_LOG: trace
-  TF_INPUT: 0
   # mascot: Mona
-  AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}
-  ACTIONS_ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
 
 defaults:
   run:
@@ -51,9 +46,9 @@ jobs:
 
       - name: Export Terraform Runner Variables 🏃🏾
         run: |
-          export ${{ env.TF_IN_AUTOMATION }} \
+          export TF_IN_AUTOMATION=true \
             && TF_LOG=trace \
-            && ${{ env.TF_INPUT }}
+            && TF_INPUT=0 }}
 
       - name: Terraform Format ✅
         id: fmt
