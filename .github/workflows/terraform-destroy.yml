@@ -2,6 +2,7 @@ name: Destroy AZURE App 💣
 run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
+  workflow_call:
   # push:
 # env:
 #   AWS_REGION: ${{ vars.AWS_DEFAULT_REGION }}

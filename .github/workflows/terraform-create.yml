@@ -2,6 +2,7 @@ name: Create AZURE App 🕋
 run-name: Written by ${{ github.actor }} 🤖
 on:
   workflow_dispatch:
+  workflow_call:
   # push:
 env:
   TF_IN_AUTOMATION: true
