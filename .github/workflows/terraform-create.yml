@@ -1,5 +1,5 @@
 name: ⛅️ Create AZURE App 🕋
-run-name: created by ${{ github.actor }} 🪼
+run-name: creation by ${{ github.actor }} 🪼
 on:
   # workflow_dispatch:
   workflow_call:
@@ -14,7 +14,7 @@ defaults:
 #   contents: read # required for actions/checkout
 
 jobs:
-  terraform_job:
+  create_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
     strategy:
       matrix:
@@ -61,10 +61,3 @@ jobs:
       - name: Terraform Apply
         if: ${{ success() }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
-
-      # - name: 🛣️ Check Current Path
-      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   run: |
-      #     echo " $PWD "
-      #     pwd && ls -l
-      #     echo " $GITHUB_WORKSPACE "

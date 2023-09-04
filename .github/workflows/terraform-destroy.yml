@@ -1,16 +1,16 @@
 name: 💣 Destroy AZURE App 💥
-run-name: destroyed by ${{ github.actor }} 🧨
+run-name: destruction by ${{ github.actor }} 🧨
 on:
   workflow_dispatch:
     inputs:
       action:
-        description: 'Destroy Infra?'
+        description: "Destroy Infra?"
         type: choice
         options:
-        - destroy_No
-        - destroy_Yes
+          - destroy_No
+          - destroy_Yes
   # workflow_call:
-  push:
+  # push:
 
 defaults:
   run:
@@ -21,8 +21,9 @@ permissions:
   contents: read # required for actions/checkout
 
 jobs:
-  terraform_job:
+  destroy_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
+    if: ${{ github.event.inputs.action == 'destroy_Yes' }}
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -53,5 +54,5 @@ jobs:
         run: terraform init -backend-config="bucket=$TF_STATE"
 
       - name: Terraform Destroy
-        if: ${{ github.event.inputs.action == 'destroy_Yes' }} && github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform destroy -auto-approve
