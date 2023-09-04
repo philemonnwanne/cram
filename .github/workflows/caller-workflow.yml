@@ -1,0 +1,56 @@
+name: Call Terraform MOC 💣
+run-name: Made by ${{ github.actor }} 🤖
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+
+defaults:
+  run:
+    working-directory: "./azure"
+
+permissions:
+  id-token: write # required for requesting the JWT
+  contents: read # required for actions/checkout
+  pull-requests: write
+
+jobs:
+  infracost_job:
+    name: Pre-Determine Infrastructure Cost 💰
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        environment: [dev, stage, prod]
+    uses: philemonnwanne/cram/.github/workflows/infracost@main
+    with:
+        os: ${{ matrix.os }}
+ 
+        target: ${{ matrix.environment }}
+
+  create_job:
+    name: Create AZURE App 🕋
+    needs: infracost_job
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        environment: [dev, stage, prod]
+    uses: philemonnwanne/cram/.github/workflows/terraform-create@main
+    with:
+        os: ${{ matrix.os }}
+
+        target: ${{ matrix.environment }}
+        if: jobs.infracost_job.result == 'success'
+
+  destroy_job:
+    name: Destroy AZURE App 💣💥
+    needs: create_job
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        environment: [dev, stage, prod]
+    uses: philemonnwanne/cram/.github/workflows/terraform-destroy@main
+    with:
+        os: ${{ matrix.os }}
+
+        target: ${{ matrix.environment }}
