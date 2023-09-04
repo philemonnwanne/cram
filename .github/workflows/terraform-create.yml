@@ -1,8 +1,8 @@
 name: ⛅️ Create AZURE App 🕋
 run-name: creation by ${{ github.actor }} 🪼
 on:
-  workflow_dispatch:
-  # workflow_call:
+  # workflow_dispatch:
+  workflow_call:
   # push:
 
 defaults:
