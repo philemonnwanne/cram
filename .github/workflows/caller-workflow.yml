@@ -21,12 +21,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        environment: [dev, stage, prod]
+        # environment: [dev, stage, prod]
     uses: philemonnwanne/cram/.github/workflows/infracost@main
     with:
         os: ${{ matrix.os }}
  
-        target: ${{ matrix.environment }}
+        # target: ${{ matrix.environment }}
 
   create_job:
     name: Create AZURE App 🕋
