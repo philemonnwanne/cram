@@ -17,12 +17,12 @@ permissions:
 
 jobs:
   infracost_job:
-    name: Pre-Determine Infrastructure Cost 💰
+    name: 🤔 Pre-Determine Infrastructure Cost 💰
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
         # environment: [dev, stage, prod]
-    uses: philemonnwanne/cram/.github/workflows/infracost@main
+    uses: philemonnwanne/cram/.github/workflows/infracost.yml@main
     with:
         os: ${{ matrix.os }}
  
@@ -35,7 +35,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         environment: [dev, stage, prod]
-    uses: philemonnwanne/cram/.github/workflows/terraform-create@main
+    uses: philemonnwanne/cram/.github/workflows/terraform-create.yml@main
     with:
         os: ${{ matrix.os }}
 
@@ -49,7 +49,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         environment: [dev, stage, prod]
-    uses: philemonnwanne/cram/.github/workflows/terraform-destroy@main
+    uses: philemonnwanne/cram/.github/workflows/terraform-destroy.yml@main
     with:
         os: ${{ matrix.os }}
 
