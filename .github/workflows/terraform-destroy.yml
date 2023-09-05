@@ -28,18 +28,16 @@ permissions:
 jobs:
   destroy_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
+    if: ${{ github.event.workflow_run.actor == github.actor }}
     strategy:
       matrix:
         os: [ubuntu-latest]
         # environment: [ stage, prod ]
     runs-on: ${{ matrix.os }}
     # environment: ${{ matrix.environment }}
-    env:
-      ACTOR: ${{ github.actor }}
 
     steps:
       - name: Terraform Destroy
-        if: ${{ github.event.workflow_run.actor == env.ACTOR }}
         run: echo "terraform destroy achieved"
 
         # if: ${{ github.event.workflow_run.actor == env.ACTOR && github.event.inputs.action == 'destroy_Yes' }}
