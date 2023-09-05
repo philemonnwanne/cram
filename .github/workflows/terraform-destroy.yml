@@ -1,6 +1,9 @@
 name: 💣 Destroy AZURE App 💥
 run-name: destruction by ${{ github.actor }} 🧨
 on:
+  workflow_run:
+    workflows: [terraform-create]
+    types: [completed]
   workflow_dispatch:
     inputs:
       action:
@@ -23,7 +26,7 @@ permissions:
 jobs:
   destroy_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
-    if: ${{ github.event.inputs.action == 'destroy_Yes' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} && ${{ github.event.inputs.action == 'destroy_Yes' }}
     strategy:
       matrix:
         os: [ubuntu-latest]
