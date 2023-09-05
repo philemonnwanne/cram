@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        # environment: [dev, stage, prod]
+        # environment: [ stage, prod ]
     runs-on: ${{ matrix.os }}
     # environment: ${{ matrix.environment }}
     env:
