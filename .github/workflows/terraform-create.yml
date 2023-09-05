@@ -1,4 +1,5 @@
-name: ⛅️ Create AZURE App 🕋
+# name: ⛅️ Create AZURE App 🕋
+name: creaty
 run-name: creation by ${{ github.actor }} 🪼
 on:
   # workflow_dispatch:

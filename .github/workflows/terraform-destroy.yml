@@ -2,7 +2,8 @@ name: 💣 Destroy AZURE App 💥
 run-name: destruction by ${{ github.actor }} 🧨
 on:
   workflow_run:
-    workflows: [terraform-create]
+    # workflows: [terraform-create]
+    workflows: [creaty]
     types: [completed]
   workflow_dispatch:
     inputs:
