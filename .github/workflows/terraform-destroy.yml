@@ -3,7 +3,7 @@ run-name: destruction by ${{ github.actor }} 🧨
 on:
   workflow_run:
     # workflows: [terraform-create]
-    workflows: [creaty]
+    workflows: [terraform MOC]
     types: 
       - completed
   workflow_dispatch:
