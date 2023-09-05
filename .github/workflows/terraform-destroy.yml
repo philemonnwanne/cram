@@ -28,7 +28,6 @@ permissions:
 jobs:
   destroy_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
-    if: ${{ github.event.workflow_run.status == 'success' && github.event.inputs.action == 'destroy_Yes' }}
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -59,4 +58,5 @@ jobs:
         run: terraform init -backend-config="bucket=$TF_STATE"
 
       - name: Terraform Destroy
+        if: ${{ github.event.workflow_run.status == 'success' && github.event.inputs.action == 'destroy_Yes' }}
         run: terraform destroy -auto-approve
