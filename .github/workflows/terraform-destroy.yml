@@ -35,29 +35,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     # environment: ${{ matrix.environment }}
     env:
-      TF_IN_AUTOMATION: true
-      TF_INPUT: 0
-      TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
       ACTOR: ${{ github.actor }}
+
     steps:
-      - name: Checkout 🛒
-        uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials 🦢
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
-
-      - name: Setup Terraform 🚦
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: true
-
-      - name: 🍀 Terraform Init 🍁
-        id: init
-        run: terraform init -backend-config="bucket=$TF_STATE"
-
       - name: Terraform Destroy
-        if: ${{ github.event.workflow_run.actor == env.ACTOR && github.event.inputs.action == 'destroy_Yes' }}
+        if: ${{ github.event.inputs.action == 'destroy_Yes' }}
         run: terraform destroy -auto-approve
