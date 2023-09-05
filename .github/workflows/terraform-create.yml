@@ -6,10 +6,6 @@ on:
   workflow_call:
   # push:
 
-defaults:
-  run:
-    working-directory: "./azure"
-
 jobs:
   create_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
