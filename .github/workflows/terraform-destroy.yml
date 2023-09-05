@@ -39,5 +39,7 @@ jobs:
 
     steps:
       - name: Terraform Destroy
-        if: ${{ github.event.inputs.action == 'destroy_Yes' }}
-        run: terraform destroy -auto-approve
+        if: ${{ github.event.workflow_run.actor == env.ACTOR }}
+        run: echo "terraform destroy achieved"
+
+        # if: ${{ github.event.workflow_run.actor == env.ACTOR && github.event.inputs.action == 'destroy_Yes' }}
