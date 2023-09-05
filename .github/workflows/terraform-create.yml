@@ -116,4 +116,5 @@ jobs:
       - name: Terraform Apply
         # run: exit 1
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
-        run: terraform apply -auto-approve
+        # run: terraform apply -auto-approve
+        run: echo " hrelooooo "

@@ -27,7 +27,7 @@ permissions:
 jobs:
   destroy_job:
     name: 🐢 Terraform Infrastructure MOC 🐧
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.inputs.action == 'destroy_Yes' }}
+    if: ${{ github.event.inputs.action == 'destroy_Yes' }}
     strategy:
       matrix:
         os: [ubuntu-latest]
