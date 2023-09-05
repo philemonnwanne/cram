@@ -97,6 +97,10 @@ jobs:
 
             </details>`;
 
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+            // 3. If we have a comment, update it, otherwise create a new one
+
             if (botComment) {
               github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -113,7 +117,7 @@ jobs:
               })
             }
 
-      - name: Terraform Apply
+      - name: Terraform Apply 💭
         # run: exit 1
         if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         # run: terraform apply -auto-approve
