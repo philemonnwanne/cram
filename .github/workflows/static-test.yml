@@ -1,0 +1,67 @@
+name: Run Static Code Analysis
+on:
+  push:
+    branches:
+      - main
+env:
+  NODE_VERSION: "16.x" # set this to the node version to use
+
+jobs:
+  testSourceCode:
+    name: Test React Code ⚛️
+    defaults:
+      run:
+        working-directory: "./frontend"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node and Cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install only the Lint Package
+        run: npm ci
+
+      - name: Testing Package Installation
+        run: ls node_modules
+
+      - name: Static Type Checker
+        run: npm run flow
+        continue-on-error: true
+
+  testTerraformCode:
+    name: 🐢 Test Terraform Code 🐧
+    defaults:
+      run:
+        working-directory: "./terraform"
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      TF_IN_AUTOMATION: true
+      TF_INPUT: 0
+    steps:
+      - name: Checkout Repo 🛒
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform 🚦
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: true
+
+      - name: Terraform Format ℹ
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Validate  ✅
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Status 🐢
+        if: steps.validate.outcome == 'failure' || steps.fmt.outcome == 'failure'
+        run: exit 1
