@@ -23,7 +23,7 @@ jobs:
     name:
     # needs: infracost_job
     # if: ${{ failure() }}
-    needs: static_test
+    # needs: static_test
     uses: philemonnwanne/cram/.github/workflows/build.yml@main
     secrets: inherit
 
