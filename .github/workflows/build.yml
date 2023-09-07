@@ -7,7 +7,7 @@ env:
 
 jobs:
   build_frontend:
-    name: Build Frontend Static Assets
+    name: 👷🏾‍♂️ Build Static Assets
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,7 +41,7 @@ jobs:
           path: ./dist/release.zip
 
   build_backend:
-    name: Deploy Backend Docker Image to Amazon ECS
+    name: 🍟 Deploy Image to ECS 
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -54,7 +54,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -68,11 +68,11 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           ECR_REPOSITORY: azure
         run: |
-          docker build -t ${ECR_REGISTRY}/${secrets.ECR_REPOSITORY}:${IMAGE_TAG} .
-          docker push ${ECR_REGISTRY}/${secrets.ECR_REPOSITORY}:${IMAGE_TAG}
+          docker build -t ${ECR_REGISTRY}/${env.ECR_REPOSITORY}:${IMAGE_TAG} .
+          docker push ${ECR_REGISTRY}/${env.ECR_REPOSITORY}:${IMAGE_TAG}
 
   plan_output:
-    name: Output Terraform Plan 👨🏾‍💻
+    name: 👨🏾‍💻 Output Terraform Plan
     defaults:
       run:
         working-directory: "./terraform"
@@ -86,6 +86,12 @@ jobs:
     steps:
       - name: Checkout Repo 🛒
         uses: actions/checkout@v3
+      
+      - name: Configure AWS Credentials 🦢
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
