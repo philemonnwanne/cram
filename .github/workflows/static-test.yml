@@ -1,4 +1,4 @@
-name: Run Static Code Analysis
+name: 👩🏾‍⚕️ Run Static Code Analysis 📊
 on:
   workflow_call:
 env:
@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install only the Lint Package
         run: npm ci
@@ -32,7 +32,7 @@ jobs:
         continue-on-error: true
 
   testTerraformCode:
-    name: 🐢 Test Terraform Code 🐧
+    name: Test Terraform Code 🦖
     defaults:
       run:
         working-directory: "./terraform"
@@ -51,6 +51,10 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: true
+
+      - name: 🍀 Terraform Init 🍁
+        id: init
+        run: terraform init
 
       - name: Terraform Format ℹ
         id: fmt
