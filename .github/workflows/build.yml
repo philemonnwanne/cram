@@ -114,6 +114,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: tf_plan
-          path: ./plans/tf_plan
+          path: plans/tf_plan
           if-no-files-found: error
           retention-days: 1
