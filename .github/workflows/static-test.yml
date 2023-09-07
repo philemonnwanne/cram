@@ -43,6 +43,7 @@ jobs:
     env:
       TF_IN_AUTOMATION: true
       TF_INPUT: 0
+      TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
       - name: Checkout Repo 🛒
         uses: actions/checkout@v3
