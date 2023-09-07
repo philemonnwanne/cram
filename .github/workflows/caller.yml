@@ -13,14 +13,14 @@ permissions:
 
 jobs:
   static_test:
-    name: Perform lint/static Tests
+    name:
     # needs: infracost_job
     # if: ${{ failure() }}
     uses: philemonnwanne/cram/.github/workflows/static-test.yml@main
     secrets: inherit
 
   build:
-    name: Build Artifacts/Docker Image & Push to ECR
+    name:
     # needs: infracost_job
     # if: ${{ failure() }}
     needs: static_test

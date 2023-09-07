@@ -1,4 +1,4 @@
-name: 👩🏾‍⚕️ Run Static Code Analysis 📊
+name: 👩🏾‍⚕️ Run Static Code Analysis
 on:
   workflow_call:
 env:
@@ -6,7 +6,7 @@ env:
 
 jobs:
   testSourceCode:
-    name: Test React Code ⚛️
+    name: ⚛️ Test React Code
     defaults:
       run:
         working-directory: "./frontend"
@@ -32,7 +32,7 @@ jobs:
         continue-on-error: true
 
   testTerraformCode:
-    name: Test Terraform Code 🦖
+    name: 🦖 Test Terraform Code
     defaults:
       run:
         working-directory: "./terraform"
