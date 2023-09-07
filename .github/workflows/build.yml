@@ -1,8 +1,6 @@
 name: 🧱 Generate Build Artifact 🧱 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
 env:
   NODE_VERSION: "16.14.2" # set this to the node version to use
   env:
