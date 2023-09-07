@@ -106,7 +106,7 @@ jobs:
         # if: github.event_name == 'pull_request'
         run: |
           terraform plan -out "tf_plan"
-          echo pwd
+          pwd
           ls -l
         continue-on-error: true
 
