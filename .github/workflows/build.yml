@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install Dependencies
         run: npm ci
@@ -68,8 +68,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           ECR_REPOSITORY: azure
         run: |
-          docker build -t ${ECR_REGISTRY}/${env.ECR_REPOSITORY}:${IMAGE_TAG} .
-          docker push ${ECR_REGISTRY}/${env.ECR_REPOSITORY}:${IMAGE_TAG}
+          docker build -t ${env.ECR_REGISTRY}/${env.ECR_REPOSITORY}:${env.IMAGE_TAG} .
+          docker push ${env.ECR_REGISTRY}/${env.ECR_REPOSITORY}:${env.IMAGE_TAG}
 
   plan_output:
     name: 👨🏾‍💻 Output Terraform Plan
@@ -83,6 +83,7 @@ jobs:
     env:
       TF_IN_AUTOMATION: true
       TF_INPUT: 0
+      TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
       - name: Checkout Repo 🛒
         uses: actions/checkout@v3
