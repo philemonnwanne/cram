@@ -107,6 +107,7 @@ jobs:
         run: |
           mkdir -p plans
           terraform plan -out "plans/tf_plan"
+          ls -l plans
         continue-on-error: true
 
       - name: Upload TF Plan ☁️
