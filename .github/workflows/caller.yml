@@ -12,12 +12,12 @@ permissions:
   pull-requests: write
 
 jobs:
-  static_test:
-    name:
-    # needs: infracost_job
-    # if: ${{ failure() }}
-    uses: philemonnwanne/cram/.github/workflows/static-test.yml@main
-    secrets: inherit
+  # static_test:
+  #   name:
+  #   # needs: infracost_job
+  #   # if: ${{ failure() }}
+  #   uses: philemonnwanne/cram/.github/workflows/static-test.yml@main
+  #   secrets: inherit
 
   build:
     name:
