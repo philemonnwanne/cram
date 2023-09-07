@@ -5,69 +5,69 @@ env:
   NODE_VERSION: "16.x" # set this to the node version to use
 
 jobs:
-  # build_frontend:
-  #   name: 👷🏾‍♂️ Build Static Assets
-  #   defaults:
-  #     run:
-  #       working-directory: "./frontend"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
+  build_frontend:
+    name: 👷🏾‍♂️ Build Static Assets
+    defaults:
+      run:
+        working-directory: "./frontend"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Setup Node and Cache
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #         cache: "npm"
-  #         cache-dependency-path: frontend/package-lock.json
+      - name: Setup Node and Cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
 
-  #     - name: Install only the Lint Package
-  #       run: npm ci
+      - name: Install only the Lint Package
+        run: npm ci
 
-  #     - name: Build Artifact
-  #       run: npm run build --if-present 
+      - name: Build Artifact
+        run: npm run build --if-present 
 
-  #     - name: Zip Artifact for Deployment
-  #       run: |
-  #         cd dist
-  #         zip release.zip ./* -r
+      - name: Zip Artifact for Deployment
+        run: |
+          cd dist
+          zip release.zip ./* -r
 
-  #     - name: Upload Artifact for Deployment Job
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: react-app
-  #         path: ./dist/release.zip
+      - name: Upload Artifact for Deployment Job
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-app
+          path: ./dist/release.zip
 
-  # build_backend:
-  #   name: 🍟 Deploy Image to ECS 
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: "./backend"
-  #   steps:
-  #     - name: Checkout Repo 🛒
-  #       uses: actions/checkout@v3
+  build_backend:
+    name: 🍟 Deploy Image to ECS 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./backend"
+    steps:
+      - name: Checkout Repo 🛒
+        uses: actions/checkout@v3
 
-  #     - name: Configure AWS Credentials 🦢
-  #       uses: aws-actions/configure-aws-credentials@v3
-  #       with:
-  #         role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-  #         aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+      - name: Configure AWS Credentials 🦢
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-  #     - name: Login to Amazon ECR
-  #       id: login-ecr
-  #       uses: aws-actions/amazon-ecr-login@v1
-  #       with:
-  #         mask-password: "true"
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          mask-password: "true"
 
-  #     - name: Build, Tag, and Push Docker Image to Amazon ECR
-  #       env:
-  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-  #         IMAGE_TAG: ${{ github.sha }}
-  #         ECR_REPOSITORY: azure
-  #       run: |
-  #         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Build, Tag, and Push Docker Image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+          ECR_REPOSITORY: azure
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   plan_output:
     name: 👨🏾‍💻 Output Terraform Plan
@@ -104,10 +104,7 @@ jobs:
       - name: Terraform Plan 👨🏾‍💻
         id: plan
         # if: github.event_name == 'pull_request'
-        run: |
-          terraform plan -out "tf_plan"
-          pwd
-          ls -l
+        run: terraform plan -out "tf_plan"
         continue-on-error: true
 
       - name: Upload TF Plan ☁️
