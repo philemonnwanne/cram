@@ -31,8 +31,6 @@ jobs:
         run: |
           cd dist
           zip release.zip ./* -r
-          echo $PWD
-          ls -l
 
       - name: 📤 Upload Artifact for Deployment Job
         uses: actions/upload-artifact@v3

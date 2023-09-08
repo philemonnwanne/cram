@@ -21,7 +21,7 @@ jobs:
           workflow: build.yml
           workflow_conclusion: success
           branch: main
-          name: react-app
+          name: react-app.zip
           path: ${{ github.workspace }}/frontend/dist
           if_no_artifact_found: fail
 
@@ -31,7 +31,7 @@ jobs:
       #     name: react-app
 
       - name: Unzip Artifact for Deployment
-        run: unzip release.zip
+        run: unzip react-app.zip
 
       - name: Move Artifact to Frontend Directory
         run: |
