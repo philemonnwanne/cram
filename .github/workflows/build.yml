@@ -5,7 +5,7 @@ env:
   NODE_VERSION: "16.x" # set this to the node version to use
 
 jobs:
-  build_frontend:
+  build-frontend:
     name: 👷🏾‍♂️ Build Static Assets
     defaults:
       run:
@@ -32,13 +32,13 @@ jobs:
           cd dist
           zip release.zip ./* -r
 
-      - name: Upload Artifact for Deployment Job
+      - name: 📤 Upload Artifact for Deployment Job
         uses: actions/upload-artifact@v3
         with:
           name: react-app
           path: ./dist/release.zip
 
-  build_backend:
+  build-backend:
     name: 🍟 Deploy Image to ECS 
     runs-on: ubuntu-latest
     defaults:
@@ -69,7 +69,7 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-  plan_output:
+  plan-output:
     name: 👨🏾‍💻 Output Terraform Plan
     defaults:
       run:
@@ -107,7 +107,7 @@ jobs:
         run: terraform plan -out "tf_plan"
         continue-on-error: true
 
-      - name: Upload TF Plan ☁️
+      - name: 📤 Upload TF Plan
         uses: actions/upload-artifact@v3
         with:
           name: tf_plan
