@@ -86,7 +86,7 @@ jobs:
       - name: 📥 Download all Artifacts
         run: |
           gh run download -n react-app -n tf_plan
-          
+
       - name: Zip Artifact # we can't attach a folder to a release
         run: |
           zip tripevibe-artifacts.zip react-app/release.zip tf_plan/tf_plan -r
@@ -100,15 +100,16 @@ jobs:
       - name: ➛ Create Draft Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.create-release-tag.outputs.tag_name }}
           name: ${{ steps.create-release-tag.outputs.tag_name }}
+          tag_name: ${{ steps.create-release-tag.outputs.tag_name }}
           body: |
             ## ℹ️ Info
             Commit ${{ github.sha }} was deployed to `staging`. [See code diff](${{ github.event.compare }}).
 
-            ✨ It was initialized by [${{ github.event.sender.login }}](${{ github.event.sender.html_url }}).
+            ✨ Initialized by [${{ github.event.sender.login }}](${{ github.event.sender.html_url }}).
 
             ## 👨🏾‍💻 How to Promote
             In order to promote this to Production, edit the draft and press **"Publish release"**. ✅
           draft: true
           files: tripevibe-artifacts.zip
+          fail_on_unmatched_files: true
