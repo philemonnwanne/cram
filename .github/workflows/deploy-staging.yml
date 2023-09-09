@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
-      GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GH_TOKEN: ${{ github.token }}
       TF_INPUT: 0
       TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
