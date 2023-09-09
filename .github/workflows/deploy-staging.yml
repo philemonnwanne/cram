@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
+      github_token: ${{secrets.GITHUB_TOKEN}}
       TF_INPUT: 0
       TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
@@ -34,8 +35,6 @@ jobs:
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           gh run download -n react-app
           ls -R
@@ -55,8 +54,6 @@ jobs:
 
       # - name: 📥 Download TF Plan Artifact
       - name: 📥 Download TF Plan Artifact from `Build` Workflow Run
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           gh run download -n react-app
           ls -R
