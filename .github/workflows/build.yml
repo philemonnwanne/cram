@@ -147,6 +147,8 @@ jobs:
           name: react-app
 
       - name: DowLOAD MINE Artifa
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh run download -n react-app tf_plan
           ls -R
