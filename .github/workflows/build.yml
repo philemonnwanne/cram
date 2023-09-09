@@ -135,15 +135,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh run download -n react-app -n tf_plan
-          ls -R
+          ls -lR
 
       - name: Unzip Artifact for Deployment
         run: |
-          ls -R
-          unzip release.zip -d release
+          unzip react-app -d release
+          ls -lR
 
-      - name: Move Artifact to Frontend Directory
-        run: |
-          mkdir ${GITHUB_WORKSPACE}/frontend/dist
-          ls -R ${GITHUB_WORKSPACE}
-          mv release/* ${GITHUB_WORKSPACE}/frontend/dist
+      # - name: Move Artifact to Frontend Directory
+      #   run: |
+      #     mkdir ${GITHUB_WORKSPACE}/frontend/dist
+      #     ls -R ${GITHUB_WORKSPACE}
+      #     mv release/* ${GITHUB_WORKSPACE}/frontend/dist
