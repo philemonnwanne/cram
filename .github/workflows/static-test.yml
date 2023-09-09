@@ -25,11 +25,13 @@ jobs:
         run: npm ci
 
       - name: Testing Package Installation
-        run: ls node_modules
+        run: |
+          ls node_modules
+          rm node_modules/resolve/test/resolver/malformed_package_json/package.json
 
       - name: Static Type Checker
         run: npm run flow
-        continue-on-error: true
+        # continue-on-error: true
 
   testTerraformCode:
     name: 🦖 Test Terraform Code
