@@ -3,6 +3,8 @@ name: 🧙🏾‍♂️ Deploy to Environment
 run-name: 🪼 creation by ${{ github.actor }}
 on:
   workflow_call:
+env:
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   deploy-staging:
@@ -23,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
-      GH_TOKEN: ${{ github.token }}
       # REGION: ${{ vars.AWS_DEFAULT_REGION }}
       TF_INPUT: 0
       # ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}

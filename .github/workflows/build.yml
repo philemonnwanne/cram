@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Build Artifact
-        run: npm run build --if-present 
+        run: npm run build --if-present
 
       - name: Zip Artifact for Deployment
         run: |
@@ -39,7 +39,7 @@ jobs:
           path: ${{ github.workspace }}/frontend/dist/release.zip
 
   # build-backend:
-  #   name: 🍟 Deploy Image to ECS 
+  #   name: 🍟 Deploy Image to ECS
   #   runs-on: ubuntu-latest
   #   defaults:
   #     run:
@@ -86,7 +86,7 @@ jobs:
     steps:
       - name: Checkout Repo 🛒
         uses: actions/checkout@v3
-      
+
       - name: Configure AWS Credentials 🦢
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -101,7 +101,7 @@ jobs:
       - name: 🍀 Terraform Init 🍁
         id: init
         run: terraform init -backend-config="bucket=$TF_STATE"
-        
+
       - name: Terraform Plan 👨🏾‍💻
         id: plan
         # if: github.event_name == 'pull_request'

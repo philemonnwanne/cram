@@ -20,7 +20,7 @@ jobs:
   #   secrets: inherit
 
   build:
-    name:
+    name: 👷🏾‍♀️ Build Artifacts
     # needs: static-test
     uses: philemonnwanne/cram/.github/workflows/build.yml@main
     secrets: inherit
@@ -33,7 +33,7 @@ jobs:
 
   deploy-staging:
     name: 🕋 Deploy to Staging Environment
-    needs: [build]
+    needs: build
     uses: philemonnwanne/cram/.github/workflows/deploy-staging.yml@main
     secrets: inherit
 
