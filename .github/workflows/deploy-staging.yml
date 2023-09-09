@@ -12,10 +12,11 @@ jobs:
     defaults:
       run:
         working-directory: "./terraform"
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    # strategy:
+    #   matrix:
+    #     os: [ubuntu-latest]
+    # runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
       TF_INPUT: 0
@@ -32,7 +33,7 @@ jobs:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-      - name: 📥 Download Artifact from build Job
+      - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -54,20 +55,11 @@ jobs:
 
       # - name: 📥 Download TF Plan Artifact
       - name: 📥 Download TF Plan Artifact from `Build` Workflow Run
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: build.yml
-          # workflow_conclusion: success
-          branch: main
-          name: tf_plan
-          path: ${{ github.workspace }}/terraform
-          if_no_artifact_found: fail
-
-        # uses: actions/download-artifact@v3
-        # with:
-        #   name: tf_plan
-        #   path: ${{ github.workspace }}/terraform
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download -n react-app
+          ls -R
 
       - name: 🍀 Terraform Init
         id: init
@@ -82,17 +74,8 @@ jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: get-artifact
+    needs: deploy-staging
     steps:
-      - name: 📥 Download all Artifacts from `Build` Workflow Run
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: caller.yml
-          # workflow_conclusion: success
-          branch: main
-          if_no_artifact_found: fail
-
       - name: 📥 Download all Artifacts
         uses: actions/download-artifact@v3 # download all artifacts
 

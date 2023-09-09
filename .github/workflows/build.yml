@@ -74,10 +74,11 @@ jobs:
     defaults:
       run:
         working-directory: "./terraform"
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    # strategy:
+    #   matrix:
+    #     os: [ubuntu-latest]
+    # runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     env:
       TF_IN_AUTOMATION: true
       TF_INPUT: 0
@@ -119,10 +120,11 @@ jobs:
     # environment: staging
     name: Download Build Files
     needs: [build-frontend, plan-output]
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    # strategy:
+    #   matrix:
+    #     os: [ubuntu-latest]
+    # runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repo 🛒
