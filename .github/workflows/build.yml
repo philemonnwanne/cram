@@ -38,36 +38,36 @@ jobs:
           name: react-app
           path: ${{ github.workspace }}/frontend/dist/release.zip
 
-  build-backend:
-    name: 🍟 Deploy Image to ECS 
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "./backend"
-    steps:
-      - name: Checkout Repo 🛒
-        uses: actions/checkout@v3
+  # build-backend:
+  #   name: 🍟 Deploy Image to ECS 
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: "./backend"
+  #   steps:
+  #     - name: Checkout Repo 🛒
+  #       uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials 🦢
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+  #     - name: Configure AWS Credentials 🦢
+  #       uses: aws-actions/configure-aws-credentials@v3
+  #       with:
+  #         role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+  #         aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          mask-password: "true"
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v1
+  #       with:
+  #         mask-password: "true"
 
-      - name: Build, Tag, and Push Docker Image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
-          ECR_REPOSITORY: azure
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #     - name: Build, Tag, and Push Docker Image to Amazon ECR
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #         IMAGE_TAG: ${{ github.sha }}
+  #         ECR_REPOSITORY: azure
+  #       run: |
+  #         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   plan-output:
     name: 👨🏾‍💻 Output Terraform Plan
@@ -118,6 +118,7 @@ jobs:
   get-artifact:
     # environment: staging
     name: Download Build Files
+    needs: [build-frontend, plan-output]
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -137,8 +138,8 @@ jobs:
 
       - name: 📥 Download artifact from build job
         uses: actions/download-artifact@v3
-        # with:
-          # name: react-app
+        with:
+          name: react-app
 
       - name: Unzip Artifact for Deployment
         run: unzip react-app.zip
