@@ -146,8 +146,15 @@ jobs:
         with:
           name: react-app
 
+      - name: DowLOAD MINE Artifa
+        run: |
+          gh run download -n react-app tf_plan
+          ls -R
+
       - name: Unzip Artifact for Deployment
-        run: unzip release.zip -d release
+        run: |
+          ls -R
+          unzip release.zip -d release
 
       - name: Move Artifact to Frontend Directory
         run: |
