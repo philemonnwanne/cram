@@ -1,5 +1,6 @@
 # .github/workflows/deploy-production.yaml
 on:
+  workflow_call:
   release:
     types: [published]
 
@@ -23,14 +24,15 @@ jobs:
         uses: robinraju/release-downloader@v1.8
         with:
           latest: true
-          fileName: "tfplan.zip"
+          # tag: "v1.0.0"
+          fileName: "tripevibe-artifacts.zip"
           extract: true
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: eu-central-1
+      # - name: 🦢 Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v3
+      #   with:
+      #     role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
+      #     aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: Deploy Artifact
         run: |

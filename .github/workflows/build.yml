@@ -116,33 +116,33 @@ jobs:
           # if-no-files-found: error
           # retention-days: 1
 
-  get-artifact:
-    # environment: staging
-    name: Download Build Files
-    needs: plan-output
-    # strategy:
-    #   matrix:
-    #     os: [ubuntu-latest]
-    # runs-on: ${{ matrix.os }}
-    runs-on: ubuntu-latest
+  # get-artifact:
+  #   # environment: staging
+  #   name: Download Build Files
+  #   needs: plan-output
+  #   # strategy:
+  #   #   matrix:
+  #   #     os: [ubuntu-latest]
+  #   # runs-on: ${{ matrix.os }}
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Repo 🛒
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout Repo 🛒
+  #       uses: actions/checkout@v3
 
-      - name: 📥 Download artifact from build job
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          sleep 60s
-          gh run download -n react-app -n tf_plan
+  #     - name: 📥 Download artifact from build job
+  #       env:
+  #         GH_TOKEN: ${{ github.token }}
+  #       run: |
+  #         sleep 60s
+  #         gh run download -n react-app -n tf_plan
 
-      - name: Unzip Artifact for Deployment
-        run: |
-          unzip react-app/release.zip -d release
-          ls -lR
+  #     - name: Unzip Artifact for Deployment
+  #       run: |
+  #         unzip react-app/release.zip -d release
+  #         ls -lR
 
-      - name: Move Artifact to Frontend Directory
-        run: |
-          mkdir ${GITHUB_WORKSPACE}/frontend/dist
-          mv release/* ${GITHUB_WORKSPACE}/frontend/dist
+  #     - name: Move Artifact to Frontend Directory
+  #       run: |
+  #         mkdir ${GITHUB_WORKSPACE}/frontend/dist
+  #         mv release/* ${GITHUB_WORKSPACE}/frontend/dist
