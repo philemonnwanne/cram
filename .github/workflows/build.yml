@@ -135,6 +135,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build.yml
           # branch: main
+          workflow_conclusion: failure
           name: react-app
           # path: ${{ github.workspace }}/frontend/dist
           # if_no_artifact_found: fail

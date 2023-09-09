@@ -1,4 +1,4 @@
-name: 👨🏾‍🎤 terraform MOC 🧌
+name: 👨🏾‍🎤 terraform MOC
 run-name: action by ${{ github.actor }} 🧌
 on:
   workflow_dispatch:
