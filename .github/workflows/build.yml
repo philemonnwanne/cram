@@ -132,7 +132,7 @@ jobs:
 
       - name: 📥 Download artifact from build job
         env:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           gh run download -n react-app tf_plan
           ls -R
