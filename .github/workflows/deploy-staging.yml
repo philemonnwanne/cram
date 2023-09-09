@@ -31,7 +31,7 @@ jobs:
       #     name: react-app
 
       - name: Unzip Artifact for Deployment
-        run: unzip release.zip
+        run: unzip release.zip -d release
 
       - name: Move Artifact to Frontend Directory
         run: |

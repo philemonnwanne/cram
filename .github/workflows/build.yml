@@ -125,13 +125,16 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Checkout Repo 🛒
+        uses: actions/checkout@v3
+
       - name: 📥 Download Artifact from `Build` Workflow Run
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: build.yml
-          branch: main
-          name: react-app
+          # workflow: build.yml
+          # branch: main
+          # name: react-app
           # path: ${{ github.workspace }}/frontend/dist
           if_no_artifact_found: fail
         continue-on-error: true
@@ -142,10 +145,10 @@ jobs:
           name: react-app
 
       - name: Unzip Artifact for Deployment
-        run: unzip release.zip
+        run: unzip release.zip -d release
 
       - name: Move Artifact to Frontend Directory
         run: |
-          # mkdir ${GITHUB_WORKSPACE}/frontend/dist
+          mkdir ${GITHUB_WORKSPACE}/frontend/dist
           ls -R ${GITHUB_WORKSPACE}
           mv release/* ${GITHUB_WORKSPACE}/frontend/dist
