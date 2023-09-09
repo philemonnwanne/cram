@@ -4,66 +4,66 @@ run-name: 🪼 creation by ${{ github.actor }}
 on:
   workflow_call:
 
+env:
+  TF_IN_AUTOMATION: true
+  GH_TOKEN: ${{ github.token }}
+  REGION: ${{ vars.AWS_DEFAULT_REGION }}
+  TF_INPUT: 0
+  ROLE_ARN: ${{ secrets.ACTIONS_ROLE_ARN }}
+  TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
+
 jobs:
   deploy-staging:
     environment: staging
       # url: ${{ steps.step_id.outputs.url_output }}
     name: 🐧 Deploy to Staging
-    # defaults:
-    #   run:
-    #     working-directory: "terraform"
+    defaults:
+      run:
+        working-directory: "./terraform"
     # strategy:
     #   matrix:
     #     os: [ubuntu-latest]
     # runs-on: ${{ matrix.os }}
     runs-on: ubuntu-latest
-    env:
-      TF_IN_AUTOMATION: true
-      GH_TOKEN: ${{ github.token }}
-      TF_INPUT: 0
-      TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
+      - name: 🛒 Checkout Repo
+        uses: actions/checkout@v3
+
       - run: |
           ls -R
           echo "👷🏾‍♂️ Target environment is staging"
 
-      - run: echo "Dir is... $PWD"
-
-      - name: 🛒 Checkout Repo
-        uses: actions/checkout@v3
+      - run: echo "Dir is... ${PWD}"
 
       - name: 🦢 Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+          role-to-assume: ${{ env.ROLE_ARN }}
+          aws-region: ${{ env.REGION }}
 
-      # - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
+      - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
+        run: |
+          gh run download -n react-app -n tf_plan
+          ls -R
+
+      # - name: Move Artifact to Frontend Directory
+      #   run: |
+      #     mkdir ${GITHUB_WORKSPACE}/frontend/dist
+      #     mv release/* ${GITHUB_WORKSPACE}/frontend/dist
+
+      # - name: 🚦 Setup Terraform
+      #   uses: hashicorp/setup-terraform@v2
+      #   with:
+      #     terraform_wrapper: true
+
+      # - name: 📥 Download TF Plan Artifact from `Build` Workflow Run
       #   run: |
       #     gh run download -n react-app
       #     ls -R
 
-      # - name: Unzip Artifact for Deployment
-      #   run: unzip release.zip -d release
-
-      - name: Move Artifact to Frontend Directory
-        run: |
-          mkdir ${GITHUB_WORKSPACE}/frontend/dist
-          mv release/* ${GITHUB_WORKSPACE}/frontend/dist
-
-      - name: 🚦 Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_wrapper: true
-
-      - name: 📥 Download TF Plan Artifact from `Build` Workflow Run
-        run: |
-          gh run download -n react-app
-          ls -R
-
-      - name: 🍀 Terraform Init
-        id: init
-        run: terraform init -backend-config="bucket=$TF_STATE"
+      # - name: 🍀 Terraform Init
+      #   id: init
+      #   run: terraform init -backend-config="bucket=$TF_STATE"
 
       - name: 🧙🏾‍♂️ Terraform Apply Staging
         run: |
