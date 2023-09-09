@@ -1,4 +1,4 @@
-name: 👨🏾‍🎤 Tripy MOC
+name: Tripy-MOC
 run-name: action by ${{ github.actor }} 🧌
 on:
   workflow_dispatch:
