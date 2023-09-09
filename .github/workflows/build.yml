@@ -134,7 +134,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          sleep 30s
+          sleep 60s
           gh run download -n react-app -n tf_plan
 
       - name: Unzip Artifact for Deployment

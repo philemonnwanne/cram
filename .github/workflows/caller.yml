@@ -1,4 +1,4 @@
-name: 👨🏾‍🎤 terraform MOC
+name: 👨🏾‍🎤 Tripy MOC
 run-name: action by ${{ github.actor }} 🧌
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
   #   secrets: inherit
 
   deploy-staging:
-    name: 🕋 Deploy to Staging Environment
+    name: 🕋 Deploy to Staging
     needs: build
     uses: philemonnwanne/cram/.github/workflows/deploy-staging.yml@main
     secrets: inherit
