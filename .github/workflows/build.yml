@@ -131,14 +131,14 @@ jobs:
       - name: 📥 Download Artifact from `Build` Workflow Run
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
-          # branch: main
-          workflow_conclusion: failure
-          name: react-app
-          # path: ${{ github.workspace }}/frontend/dist
-          # if_no_artifact_found: fail
+        # with:
+        #   github_token: ${{secrets.GITHUB_TOKEN}}
+        #   workflow: build.yml
+        #   # branch: main
+        #   workflow_conclusion: failure
+        #   name: react-app
+        #   # path: ${{ github.workspace }}/frontend/dist
+        #   # if_no_artifact_found: fail
         continue-on-error: true
 
       - name: 📥 Download artifact from build job
