@@ -34,10 +34,10 @@ jobs:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-      - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
-        run: |
-          gh run download -n react-app
-          ls -R
+      # - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
+      #   run: |
+      #     gh run download -n react-app
+      #     ls -R
 
       - name: Unzip Artifact for Deployment
         run: unzip release.zip -d release
@@ -52,10 +52,9 @@ jobs:
         with:
           terraform_wrapper: true
 
-      # - name: 📥 Download TF Plan Artifact
       - name: 📥 Download TF Plan Artifact from `Build` Workflow Run
         run: |
-          gh run download -n react-app
+          gh run download -n react-app tf_plan
           ls -R
 
       - name: 🍀 Terraform Init
