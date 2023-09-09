@@ -119,9 +119,7 @@ jobs:
   get-artifact:
     # environment: staging
     name: Download Build Files
-    needs: 
-      - build-frontend
-      - plan-output
+    needs: plan-output
     # strategy:
     #   matrix:
     #     os: [ubuntu-latest]
