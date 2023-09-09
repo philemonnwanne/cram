@@ -9,9 +9,9 @@ jobs:
     environment: staging
       # url: ${{ steps.step_id.outputs.url_output }}
     name: 🐧 Deploy to Staging
-    defaults:
-      run:
-        working-directory: "terraform"
+    # defaults:
+    #   run:
+    #     working-directory: "terraform"
     # strategy:
     #   matrix:
     #     os: [ubuntu-latest]
