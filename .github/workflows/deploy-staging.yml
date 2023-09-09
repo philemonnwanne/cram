@@ -20,10 +20,10 @@ jobs:
         with:
           workflow: build.yml
           workflow_conclusion: success
-          branch: main
-          name: react-app.zip
-          path: ${{ github.workspace }}/frontend/dist
-          if_no_artifact_found: fail
+          # branch: main
+          # name: react-app.zip
+          # path: ${{ github.workspace }}/frontend/dist
+          # if_no_artifact_found: fail
 
       # - name: 📥 Download artifact from build job
       #   uses: actions/download-artifact@v3
