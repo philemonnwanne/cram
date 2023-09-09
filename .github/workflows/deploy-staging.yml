@@ -18,8 +18,9 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: caller.yml
-          workflow_conclusion: success
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: build.yml
+          # workflow_conclusion: success
           # branch: main
           name: react-app
           # path: ${{ github.workspace }}/frontend/dist
