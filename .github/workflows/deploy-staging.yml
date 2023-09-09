@@ -6,7 +6,8 @@ on:
 
 jobs:
   deploy-staging:
-    environment: staging
+    environment:
+      staging
       # url: ${{ steps.step_id.outputs.url_output }}
     permissions:
       id-token: write
@@ -40,7 +41,7 @@ jobs:
       - name: 🦢 Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume:  ${{ secrets.ACTIONS_ROLE_ARN }}
+          role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: 📥 Download ReactJS Artifact from `Build` Workflow Run
@@ -48,7 +49,6 @@ jobs:
           gh run download -n react-app -n tf_plan
           ls -R
 
-          
       # - name: Move Artifact to Frontend Directory
       #   run: |
       #     mkdir ${GITHUB_WORKSPACE}/frontend/dist
@@ -80,14 +80,15 @@ jobs:
     needs: deploy-staging
     steps:
       - name: 📥 Download all Artifacts
-        uses: actions/download-artifact@v3 # download all artifacts
+        run: |
+          gh run download -n react-app -n tf_plan
 
       - name: Display structure of downloaded files
         run: ls -R
 
-      # - name: Zip Artifact # we can't attach a folder to a release
-      #   run: |
-      #     zip -r 
+      - name: Zip Artifact # we can't attach a folder to a release
+        run: |
+          zip tripevibe-artifacts.zip react-app/release.zip tf_plan/tf_plan -r
 
       - name: 🏷️ Create Release Tag
         id: create-release-tag
@@ -108,4 +109,4 @@ jobs:
             ## 👨🏾‍💻 How to Promote
             In order to promote this to Production, edit the draft and press **"Publish release"**. ✅
           draft: true
-          files: cdk.out.zip
+          files: tripevibe-artifacts.zip

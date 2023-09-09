@@ -18,7 +18,7 @@ jobs:
       #   with:
       #     version: ${{ github.event.release.id }}
       #     file: cdk.out.zip
-    
+
       - name: 📥 Get Artifact from Release
         uses: robinraju/release-downloader@v1.8
         with:
@@ -31,7 +31,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: eu-central-1
-          
+
       - name: Deploy Artifact
         run: |
           ls -R
