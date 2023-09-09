@@ -93,7 +93,8 @@ jobs:
       - name: 🏷️ Create Release Tag
         id: create-release-tag
         run: |
-          echo "tag_name=v$(printf %d.0.0 $GITHUB_RUN_NUMBER)" >> $GITHUB_OUTPUT
+          export LEFT_PAD_NUM=1
+          echo "tag_name=v$(printf %d.0.0 $LEFT_PAD_NUM)" >> $GITHUB_OUTPUT
 
       - name: ➛ Create Draft Release
         uses: softprops/action-gh-release@v1
