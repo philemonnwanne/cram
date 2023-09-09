@@ -14,22 +14,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: 📥 Download Artifact from `Build` Workflow Run
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
-          workflow_conclusion: failure
-          # branch: main
-          name: react-app
-          # path: ${{ github.workspace }}/frontend/dist
-          # if_no_artifact_found: fail
-
-      # - name: 📥 Download artifact from build job
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: react-app
+      - name: 📥 Download artifact from build job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download -n react-app
+          ls -R
 
       - name: Unzip Artifact for Deployment
         run: unzip release.zip -d release
