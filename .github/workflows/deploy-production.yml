@@ -10,9 +10,9 @@ jobs:
     if: startsWith(github.ref_name, 'v') # the prefix we have added to the tag
     environment: production
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
+    # permissions:
+    #   id-token: write
+    #   contents: write
     steps:
       # - name: 📥 Get Artifact from Release
       #   uses: dsaltares/fetch-gh-release-asset@master

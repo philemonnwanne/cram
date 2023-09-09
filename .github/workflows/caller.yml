@@ -40,7 +40,7 @@ jobs:
   deploy-production:
     name: ☁️ Release to Production
     needs: deploy-staging
-    uses: philemonnwanne/cram.github/workflows/deploy-production.yml@main
+    uses: philemonnwanne/cram/.github/workflows/deploy-production.yml@main
     secrets: inherit
 
   # deploy:
