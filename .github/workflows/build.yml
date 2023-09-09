@@ -129,9 +129,9 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: caller.yml
+          workflow: build.yml
           branch: main
-          # name: react-app.zip
+          name: react-app
           # path: ${{ github.workspace }}/frontend/dist
           if_no_artifact_found: fail
         continue-on-error: true
@@ -146,5 +146,6 @@ jobs:
 
       - name: Move Artifact to Frontend Directory
         run: |
-          mkdir ${GITHUB_WORKSPACE}/frontend/dist
+          # mkdir ${GITHUB_WORKSPACE}/frontend/dist
+          ls -R ${GITHUB_WORKSPACE}
           mv release/* ${GITHUB_WORKSPACE}/frontend/dist
