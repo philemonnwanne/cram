@@ -113,8 +113,8 @@ jobs:
         with:
           name: tf_plan
           path: ${{ github.workspace }}/terraform/tf_plan
-          if-no-files-found: error
-          retention-days: 1
+          # if-no-files-found: error
+          # retention-days: 1
 
   get-artifact:
     # environment: staging
@@ -134,7 +134,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run download -n react-app tf_plan
+          gh run download -n tf_plan react-app
           ls -R
 
       - name: Unzip Artifact for Deployment
