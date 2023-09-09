@@ -39,8 +39,8 @@ jobs:
       #     gh run download -n react-app
       #     ls -R
 
-      - name: Unzip Artifact for Deployment
-        run: unzip release.zip -d release
+      # - name: Unzip Artifact for Deployment
+      #   run: unzip release.zip -d release
 
       - name: Move Artifact to Frontend Directory
         run: |
@@ -54,7 +54,7 @@ jobs:
 
       - name: 📥 Download TF Plan Artifact from `Build` Workflow Run
         run: |
-          gh run download -n react-app tf_plan
+          gh run download -n react-app
           ls -R
 
       - name: 🍀 Terraform Init
