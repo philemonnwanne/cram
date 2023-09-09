@@ -5,35 +5,10 @@ on:
   workflow_call:
 
 jobs:
-  get-artifact:
-    # environment: staging
-    name: Download Build Files
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: 📥 Download artifact from build job
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh run download -n react-app
-          ls -R
-
-      - name: Unzip Artifact for Deployment
-        run: unzip release.zip -d release
-
-      - name: Move Artifact to Frontend Directory
-        run: |
-          mkdir ${GITHUB_WORKSPACE}/frontend/dist
-          mv release/* ${GITHUB_WORKSPACE}/frontend/dist
-
   deploy-staging:
-    needs: get-artifact
     environment: staging
       # url: ${{ steps.step_id.outputs.url_output }}
-    name: 🐧 Deploy to staging
+    name: 🐧 Deploy to Staging
     defaults:
       run:
         working-directory: "./terraform"
@@ -56,6 +31,21 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ACTIONS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+
+      - name: 📥 Download Artifact from build Job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download -n react-app
+          ls -R
+
+      - name: Unzip Artifact for Deployment
+        run: unzip release.zip -d release
+
+      - name: Move Artifact to Frontend Directory
+        run: |
+          mkdir ${GITHUB_WORKSPACE}/frontend/dist
+          mv release/* ${GITHUB_WORKSPACE}/frontend/dist
 
       - name: 🚦 Setup Terraform
         uses: hashicorp/setup-terraform@v2
