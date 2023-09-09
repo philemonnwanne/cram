@@ -11,9 +11,9 @@ jobs:
     environment:
       staging
       # url: ${{ steps.step_id.outputs.url_output }}
-    permissions:
-      id-token: write
-      contents: read
+    # permissions:
+    #   id-token: write
+    #   contents: read
     name: 🐧 Deploy to Staging
     defaults:
       run:
