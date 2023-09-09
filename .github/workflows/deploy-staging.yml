@@ -11,7 +11,7 @@ jobs:
     name: 🐧 Deploy to Staging
     defaults:
       run:
-        working-directory: "./terraform"
+        working-directory: "terraform"
     # strategy:
     #   matrix:
     #     os: [ubuntu-latest]
@@ -23,7 +23,11 @@ jobs:
       TF_INPUT: 0
       TF_STATE: ${{ secrets.TF_STATE }} # S3 bucket for the Terraform state
     steps:
-      - run: echo "👷🏾‍♂️ Target environment is staging"
+      - run: |
+          ls -R
+          echo "👷🏾‍♂️ Target environment is staging"
+
+      - run: echo "Dir is... $PWD"
 
       - name: 🛒 Checkout Repo
         uses: actions/checkout@v3
