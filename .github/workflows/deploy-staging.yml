@@ -1,6 +1,6 @@
 # .github/workflows/deploy-staging.yaml
-name: 🧙🏾‍♂️ Deploy to Environment
-run-name: 🪼 creation by ${{ github.actor }}
+name: 🕋 Deploy to Staging
+run-name: 🪼 deployed by ${{ github.actor }}
 on:
   workflow_call:
 env:
