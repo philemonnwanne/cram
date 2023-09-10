@@ -1,6 +1,6 @@
 [![Deploy-Cram](https://github.com/philemonnwanne/cram/actions/workflows/caller.yml/badge.svg)](https://github.com/philemonnwanne/cram/actions/workflows/caller.yml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/philemonnwanne/cram)
-![GitHub repo size](https://img.shields.io/github/repo-size/philemonnwanne/cram?style=social&logo=superuser&logoColor=violet&label=god&color=green)
+![GitHub repo size](https://img.shields.io/github/repo-size/philemonnwanne/cram?style=for-the-badge&logoColor=violet&label=repo-size&color=green)
 
 ![Static Badge](https://img.shields.io/badge/Terraform-orange?logo=terraform)
 
