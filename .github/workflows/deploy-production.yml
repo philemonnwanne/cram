@@ -13,12 +13,6 @@ jobs:
     #   id-token: write
     #   contents: write
     steps:
-      # - name: 📥 Get Artifact from Release
-      #   uses: dsaltares/fetch-gh-release-asset@master
-      #   with:
-      #     version: ${{ github.event.release.id }}
-      #     file: cdk.out.zip
-
       - name: 📥 Get Artifact from Release
         uses: robinraju/release-downloader@v1.8
         with:
