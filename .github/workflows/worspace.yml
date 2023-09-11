@@ -11,7 +11,7 @@ jobs:
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       - name: Terraform Workspace 🪐 # create and switch to new workspace
         id: workspace
@@ -31,7 +31,7 @@ jobs:
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       # - name: Terraform Workspace 🪐 # create and switch to new workspace
       #   id: workspace
@@ -44,7 +44,7 @@ jobs:
         id: step_one
         run: |
           echo "action_state=yellow" >> "$GITHUB_ENV"
-          
+
       - name: Use the value
         id: step_two
         run: |
@@ -64,20 +64,28 @@ jobs:
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_wrapper: true
+          terraform_wrapper: false
 
+      - name: Set color
+        id: random-color-generator
+        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
+      - name: Get color
+        env:
+          SELECTED_COLOR: ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}
+        run: echo "The selected color is $SELECTED_COLOR"
+  
       - name: Terraform Workspace 🌍 # create and switch to new workspace
         id: workspace
         run: |
           terraform workspace new stage
-          echo "tff_workspace=$(terraform workspace show)" >> $GITHUB_OUTPUT
+          echo "tff_workspacet=$(terraform workspace show)" >> $GITHUB_OUTPUT
         
       - name: Get workspace
         env:
-          tff_workspace: ${{ steps.workspace.outputs.tff_workspace }}
+          tff_workspacet: ${{ steps.workspace.outputs.tff_workspacet }}
         run: |
           env
-          echo "The selected workspace is $tff_workspace"
+          echo "The selected workspace is $tff_workspacet"
 
   space3:
     runs-on: ubuntu-latest
@@ -85,7 +93,7 @@ jobs:
       - name: Setup Terraform 🚦
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_wrapper: true
+          terraform_wrapper: false
 
       - name: Terraform Workspace 🪐 # create and switch to new workspace
         id: workspace
