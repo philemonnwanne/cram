@@ -33,18 +33,23 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - name: Terraform Workspace 🪐 # create and switch to new workspace
-        id: workspace
+      # - name: Terraform Workspace 🪐 # create and switch to new workspace
+      #   id: workspace
         # run: |
         #   terraform workspace new stage
         #   echo "tff_workspace=$(terraform workspace show)" >> $GITHUB_ENV
-        run: |
-          export LEFT_PAD_NUM=1
-          echo "tag_name=v$(printf %d.0.0 $LEFT_PAD_NUM)" >> $GITHUB_OUTPUT
+
         
-      - name: ➛ Create Draft Release
-        if: ${{ steps.workspace.outputs.tag_name == 'name' }}
-        run: ls -R
+      - name: Set the value
+        id: step_one
+        run: |
+          echo "action_state=yellow" >> "$GITHUB_ENV"
+          
+      - name: Use the value
+        id: step_two
+        run: |
+          printf '%s\n' "$action_state" # This will output 'yellow'
+          
 
       # - name: Use the value
       #   id: step_two
