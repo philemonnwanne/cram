@@ -17,7 +17,7 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          echo "TF_WORKSPACE="$(terraform workspace show)"" >> "$GITHUB_ENV"
+          echo "TF_WORKSPACE=$(terraform workspace show)" >> "$GITHUB_ENV"
 
       - name: Use the value
         id: step_two
@@ -37,7 +37,7 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          echo "TF_WORKSPACE="$(terraform workspace show)"" >> "$GITHUB_OUTPUT"
+          echo "TF_WORKSPACE=$(terraform workspace show)" >> "$GITHUB_OUTPUT"
         
       - name: Get workspace
         env:
