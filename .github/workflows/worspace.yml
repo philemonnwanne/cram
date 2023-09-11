@@ -35,16 +35,23 @@ jobs:
 
       - name: Terraform Workspace 🪐 # create and switch to new workspace
         id: workspace
+        # run: |
+        #   terraform workspace new stage
+        #   echo "tff_workspace=$(terraform workspace show)" >> $GITHUB_ENV
         run: |
-          terraform workspace new stage
-          echo "tff_workspace=$(terraform workspace show)" >> $GITHUB_ENV
+          export LEFT_PAD_NUM=1
+          echo "tag_name=v$(printf %d.0.0 $LEFT_PAD_NUM)" >> $GITHUB_OUTPUT
+        
+      - name: ➛ Create Draft Release
+        if: ${{ steps.workspace.outputs.tag_name == 'name' }}
+        run: ls -R
 
-      - name: Use the value
-        id: step_two
-        run: |
-          env
-          printf '%s\n' "$tff_workspace"
-          echo "The selected workspace is $tff_workspace"
+      # - name: Use the value
+      #   id: step_two
+      #   run: |
+      #     env
+      #     printf '%s\n' "$tff_workspace"
+      #     echo "The selected workspace is $tff_workspace"
 
   space2:
     runs-on: ubuntu-latest
