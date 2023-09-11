@@ -17,7 +17,7 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          export tf_workspace="$(terraform workspace show)" >> "$GITHUB_ENV"
+          export tf_workspace="$(terraform workspace show)" >> $GITHUB_ENV
 
       - name: Use the value
         id: step_two
@@ -37,7 +37,7 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          echo "tf_workspace="$(terraform workspace show)" >> "$GITHUB_ENV"
+          echo "tf_workspace="$(terraform workspace show)" >> $GITHUB_ENV
 
       - name: Use the value
         id: step_two
@@ -58,7 +58,7 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          echo "tf_workspace="$(terraform workspace show)" >> "$GITHUB_OUTPUT"
+          echo "tf_workspace="$(terraform workspace show)" >> $GITHUB_OUTPUT
         
       - name: Get workspace
         env:
@@ -79,7 +79,7 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          export tf_workspace="$(terraform workspace show)" >> "$GITHUB_OUTPUT"
+          export tf_workspace="$(terraform workspace show)" >> $GITHUB_OUTPUT
 
       - name: Get workspace
         env:
