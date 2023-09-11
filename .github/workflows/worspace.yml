@@ -5,6 +5,25 @@ on:
   push:
 
 jobs:
+  space0:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Terraform 🚦
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: true
+
+      - name: Terraform Workspace 🪐 # create and switch to new workspace
+        id: workspace
+        run: |
+          terraform workspace new stage
+          export TF_WORKSPACE="$(terraform workspace show)" >> "$GITHUB_ENV"
+
+      - name: Use the value
+        id: step_two
+        run: |
+          echo "The selected workspace is $tf_workspace"
+
   space1:
     runs-on: ubuntu-latest
     steps:
@@ -17,13 +36,13 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          echo "TF_WORKSPACE=$(terraform workspace show)" >> "$GITHUB_ENV"
+          echo "tf_workspace=$(terraform workspace show)" >> "$GITHUB_ENV"
 
       - name: Use the value
         id: step_two
         run: |
-          printf '%s\n' "$TF_WORKSPACE"
-          echo "The selected workspace is $TF_WORKSPACE"
+          printf '%s\n' "$tf_workspace"
+          echo "The selected workspace is $tf_workspace"
 
   space2:
     runs-on: ubuntu-latest
@@ -37,9 +56,9 @@ jobs:
         id: workspace
         run: |
           terraform workspace new stage
-          echo "TF_WORKSPACE=$(terraform workspace show)" >> "$GITHUB_OUTPUT"
+          echo "tf_workspace=$(terraform workspace show)" >> "$GITHUB_OUTPUT"
         
       - name: Get workspace
         env:
-          TF_WORKSPACE: ${{ steps.workspace.outputs.TF_WORKSPACE }}
-        run: echo "The selected workspace is $TF_WORKSPACE"
+          tf_workspace: ${{ steps.workspace.outputs.tf_workspace }}
+        run: echo "The selected workspace is $tf_workspace"
