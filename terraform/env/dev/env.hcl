@@ -5,7 +5,7 @@ locals {
 
   tags = {
     Creator   = "philemonnwanne"
-    Date = formatdate("EEEE, DD-MMM-YY ZZZ", timestamp()) # watchout for drift changes if trying to plan/apply after 24 hrs
+    // Date = formatdate("EEEE, DD-MMM-YY ZZZ", timestamp()) # watchout for drift changes if trying to plan/apply after 24 hrs
     Environment = local.environment
   }
 }
