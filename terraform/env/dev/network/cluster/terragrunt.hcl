@@ -10,15 +10,15 @@ include "env" {
 
 locals {
   project-name = include.root.locals.project-name
-  env = include.env.locals.environment
-  tags = include.env.locals.tags
+  env          = include.env.locals.environment
+  tags         = include.env.locals.tags
 }
 
 inputs = {
   ecs-cluster = {
     name = "${local.project-name}-${local.env}-cluster"
     setting = {
-      name = "containerInsights"
+      name  = "containerInsights"
       value = "disabled"
     }
   }

@@ -20,5 +20,5 @@ output "target_group_arn" {
 
 output "alb_arn" {
   description = "The ARN name of the load balancer."
-  value = aws_alb.alb.arn
+  value       = aws_alb.alb.arn
 }

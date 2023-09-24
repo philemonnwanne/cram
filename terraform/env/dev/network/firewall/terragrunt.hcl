@@ -10,8 +10,8 @@ include "env" {
 
 locals {
   project-name = include.root.locals.project-name
-  env = include.env.locals.environment
-  tags = include.env.locals.tags
+  env          = include.env.locals.environment
+  tags         = include.env.locals.tags
 }
 
 dependency "vpc" {
@@ -25,19 +25,19 @@ dependency "vpc" {
 inputs = {
 
   backend_sg = {
-    name = "${local.project-name}-${local.env}-backend-sg"
-    vpc_id      = dependency.vpc.outputs.vpc_id
-    from_port = 4000
-    to_port = 4000
-    protocol = "tcp"
-    cidr_blocks = "0.0.0.0/0"
+    name               = "${local.project-name}-${local.env}-backend-sg"
+    vpc_id             = dependency.vpc.outputs.vpc_id
+    from_port          = 4000
+    to_port            = 4000
+    protocol           = "tcp"
+    cidr_blocks        = "0.0.0.0/0"
     egress_cidr_blocks = ["0.0.0.0/0"]
-    egress_rules = ["all-all"]
+    egress_rules       = ["all-all"]
   }
 
   alb_sg = {
-    name = "${local.project-name}-${local.env}-alb-sg"
-    vpc_id      = dependency.vpc.outputs.vpc_id
+    name   = "${local.project-name}-${local.env}-alb-sg"
+    vpc_id = dependency.vpc.outputs.vpc_id
     alb_ingress_with_cidr_blocks = [
       {
         from_port   = 4000
@@ -53,8 +53,8 @@ inputs = {
       "https-443-tcp"
     ]
     egress_cidr_blocks = ["0.0.0.0/0"]
-    egress_rules = ["all-all"]
-    }
+    egress_rules       = ["all-all"]
+  }
 
   tags = local.tags
 }

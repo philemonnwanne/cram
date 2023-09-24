@@ -2,16 +2,16 @@
 # configure the remote state bucket and pass forward to the child modules as inputs.
 
 locals {
-  aws_region = "us-east-1"
+  aws_region   = "us-east-1"
   project-name = "cram"
-  account-id = 183066416469
-  domain-name = "philemonnwanne.me"
+  account-id   = 183066416469
+  domain-name  = "philemonnwanne.me"
 }
 
 generate "provider" {
-  path = "provider.tf"
+  path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<EOF
+  contents  = <<EOF
 provider "aws" {
   assume_role {
     role_arn = "arn:aws:iam::183066416469:role/sudophil"
