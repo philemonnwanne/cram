@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "task_execution_role" {
-  name               = var.iam.task_execution_role
+  name               = var.ecs_policy.task_execution_role
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -35,13 +35,13 @@ data "aws_iam_policy_document" "task_execution_policy" {
       "ssm:GetParameter",
       "ssm:GetParameters"
     ]
-    resources = var.iam.resources
+    resources = var.ecs_policy.resources
   }
 }
 # --------------------- Step 2
 # link policy document to `aws_iam_policy` resource
 resource "aws_iam_policy" "task_execution_policy" {
-  name        = var.iam.task_execution_policy
+  name        = var.ecs_policy.task_execution_policy
   description = ""
   policy      = data.aws_iam_policy_document.task_execution_policy.json
 }
@@ -55,7 +55,7 @@ resource "aws_iam_role_policy_attachment" "task_execution_role_policy_attachment
 # -------------------------
 
 resource "aws_iam_role" "task_role" {
-  name               = var.iam.task_role
+  name               = var.ecs_policy.task_role
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 # ------------------------- Step 1
@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "task_policy" {
 # --------------------- Step 2
 # link policy documentt to `aws_iam_policy` resource
 resource "aws_iam_policy" "task_policy" {
-  name        = var.iam.task_policy
+  name        = var.ecs_policy.task_policy
   description = ""
   policy      = data.aws_iam_policy_document.task_policy.json
 }
@@ -93,3 +93,31 @@ resource "aws_iam_role_policy_attachment" "task_role_policy_attachment" {
   }
   policy_arn = each.value
 }
+
+# ===============-========================
+# CLOUDFRONT BUCKET POLICY
+
+# identity with which the S3 bucket is accessed
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+  comment = var.cloudfront_bucket_policy.comment
+}
+
+# policy to allow the CloudFront `oia` to access the objects in the bucket
+data "aws_iam_policy_document" "tripvibe_s3_policy" {
+  statement {
+    actions   = var.cloudfront_bucket_policy.actions
+    resources = var.cloudfront_bucket_policy.resources
+    # resources = ["${aws_s3_bucket.cloudfront.arn}/*"]
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "tripvibe_s3_bucket_policy" {
+  bucket = var.cloudfront_bucket_policy.bucket
+  policy = data.aws_iam_policy_document.tripvibe_s3_policy.json
+}
+# CLOUDFRONT BUCKET POLICY
+# ===============-========================
