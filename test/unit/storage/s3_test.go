@@ -6,7 +6,6 @@ import (
 
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -15,10 +14,11 @@ import (
 
 func TestS3Bucket(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "bucket",
+		TerraformDir:    "../../../terraform/modules/storage",
+		TerraformBinary: "terragrunt",
 	})
 
-	TerraformHiddenDir := "bucket/.terraform"
+	TerraformHiddenDir := "../../../terraform/modules/storage/.terraform"
 
 	// at the end of the test clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
@@ -36,14 +36,13 @@ func TestS3Bucket(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
-	bucketName := terraform.Output(t, terraformOptions, "bucket_name")
-	// bucketRegion := terraform.Output(t, terraformOptions, "bucket_region")
+	bucketName := terraform.Output(t, terraformOptions, "backend_s3_bucket_name")
 
-	// Verify that our Bucket has versioning enabled
-	// S3Bucket()
+	// Verify that our Bucket exists
 	actualStatus := S3Bucket()
 	expectedStatus := bucketName
-	assert.Equal(t, expectedStatus, actualStatus)
+
+	assert.Equal(t, expectedStatus, actualStatus, "bucket not found")
 }
 
 func S3Bucket() (bucketName string) {
@@ -68,26 +67,9 @@ func S3Bucket() (bucketName string) {
 
 		bucketName := aws.StringValue(bucket.Name)
 
-		if bucketName == "tripy-bucket" {
+		if bucketName == "enter-bucket-name" {
 			return bucketName
 		}
 	}
 	return
-
-	// result, err := svc.GetBucketLocation(input)
-	// if err != nil {
-	// 	if aerr, ok := err.(awserr.Error); ok {
-	// 		switch aerr.Code() {
-	// 		default:
-	// 			fmt.Println(aerr.Error())
-	// 		}
-	// 	} else {
-	// 		// Print the error, cast err to awserr.Error
-	// 		fmt.Println(err.Error())
-	// 	}
-	// 	return err.Error()
-	// }
-	// // fmt.Printf("Bucket %s is in %s region\n", bucket, *result.LocationConstraint)
-	// return *result.LocationConstraint
-	// return
 }
