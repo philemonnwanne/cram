@@ -13,8 +13,9 @@ import (
 )
 
 func TestS3Bucket(t *testing.T) {
+	TerraformEnv := "dev"
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir:    "../../../terraform/modules/storage",
+		TerraformDir: fmt.Sprintf("../../../terraform/env/%s/storage", TerraformEnv),
 		TerraformBinary: "terragrunt",
 	})
 
