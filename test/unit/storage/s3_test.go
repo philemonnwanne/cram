@@ -13,9 +13,8 @@ import (
 )
 
 func TestS3Bucket(t *testing.T) {
-	TerraformEnv := "dev"
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: fmt.Sprintf("../../../terraform/env/%s/storage", TerraformEnv),
+		TerraformDir:    "../../../terraform/env/dev/storage",
 		TerraformBinary: "terragrunt",
 	})
 
@@ -37,40 +36,40 @@ func TestS3Bucket(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
-	bucketName := terraform.Output(t, terraformOptions, "backend_s3_bucket_name")
+	bucket_name := terraform.Output(t, terraformOptions, "backend_s3_bucket_name")
 
+	// anonymous function to return bucket name
+	var s3_bucket = func() (bucketName string) {
+		// initialize the session that the SDK uses to load credentials from the shared credentials file
+		sess, err := session.NewSession(&aws.Config{
+			Region: aws.String("us-east-1"),
+		})
+
+		if err != nil {
+			fmt.Println("Error creating session ", err)
+			return err.Error()
+		}
+
+		// create a new Amazon S3 service client:
+		svc := s3.New(sess)
+
+		input := &s3.ListBucketsInput{}
+
+		result, err := svc.ListBuckets(input)
+
+		for _, bucket := range result.Buckets {
+
+			bucketName := aws.StringValue(bucket.Name)
+
+			if bucketName == "enter-bucket-name" {
+				return bucketName
+			}
+		}
+		return
+	}
 	// Verify that our Bucket exists
-	actualStatus := S3Bucket()
-	expectedStatus := bucketName
+	actualStatus := s3_bucket()
+	expectedStatus := bucket_name
 
 	assert.Equal(t, expectedStatus, actualStatus, "bucket not found")
-}
-
-func S3Bucket() (bucketName string) {
-	// initialize the session that the SDK uses to load credentials from the shared credentials file
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("us-east-1"),
-	})
-
-	if err != nil {
-		fmt.Println("Error creating session ", err)
-		return err.Error()
-	}
-
-	// create a new Amazon S3 service client:
-	svc := s3.New(sess)
-
-	input := &s3.ListBucketsInput{}
-
-	result, err := svc.ListBuckets(input)
-
-	for _, bucket := range result.Buckets {
-
-		bucketName := aws.StringValue(bucket.Name)
-
-		if bucketName == "enter-bucket-name" {
-			return bucketName
-		}
-	}
-	return
 }
