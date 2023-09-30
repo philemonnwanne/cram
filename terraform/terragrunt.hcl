@@ -28,11 +28,11 @@ EOF
 //     if_exists = "overwrite"
 //   }
 //   config = {
-//     skip_bucket_versioning         = true 
-//     bucket         = "${local.project-name}-terraform-state"
-//     key            = "${path_relative_to_include()}/terraform.tfstate"
-//     region         = "${local.aws_region}"
-//     encrypt        = true
-//     dynamodb_table = "${local.project-name}-lock-table"
+//     skip_bucket_versioning = true
+//     bucket                 = "${local.project-name}-terraform-state"
+//     key                    = "${replace(path_relative_to_include(), "env/", "")}/terraform.tfstate"
+//     region                 = "${local.aws_region}"
+//     encrypt                = true
+//     dynamodb_table         = "${local.project-name}-lock-table"
 //   }
 // }
