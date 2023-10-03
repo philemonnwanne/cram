@@ -1,6 +1,6 @@
 # Test Procedure
 
-In the S3Bucket() function, replace the variable `bucketName` with your desired s3 bucket.
+<!-- In the S3Bucket() function, replace the variable `bucketName` with your desired s3 bucket. -->
 
 Get all dependencies in the go file
 
