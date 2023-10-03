@@ -14,7 +14,7 @@ Run Test
 go test
 ```
 
-# Worthy Mentions
+## Worthy Mentions
 
 When calling the `GetBucketLocation` API operation, S3 returns nil value for buckets in the North Virginia region (us-east-1).
 
