@@ -15,11 +15,11 @@ import (
 func TestS3Bucket(t *testing.T) {
 	terraformEnv := "dev"
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: fmt.Sprintf("../../../terraform/env/%s/storge", terraformEnv),
+		TerraformDir: fmt.Sprintf("../../../terraform/env/%s/storage", terraformEnv),
 		TerraformBinary: "terragrunt",
 	})
 
-	TerraformHiddenDir := "../../../terraform/modules/storage/.terraform"
+	TerraformHiddenDir := fmt.Sprintf("../../../terraform/env/%s/storage/.terragrunt-cache", terraformEnv)
 
 	// at the end of the test clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
@@ -62,7 +62,7 @@ func TestS3Bucket(t *testing.T) {
 
 			bucketName := aws.StringValue(bucket.Name)
 
-			if bucketName == "enter-bucket-name" {
+			if bucketName == bucket_name {
 				return bucketName
 			}
 		}
